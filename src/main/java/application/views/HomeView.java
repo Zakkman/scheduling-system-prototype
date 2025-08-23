@@ -4,10 +4,10 @@ import application.layouts.HomeLayout;
 import com.vaadin.flow.component.html.H1;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.router.Route;
-import jakarta.annotation.security.PermitAll;
+import com.vaadin.flow.server.auth.AnonymousAllowed;
 
 @Route(value = "", layout = HomeLayout.class)
-@PermitAll
+@AnonymousAllowed
 public class HomeView extends VerticalLayout {
 
     public HomeView() {
