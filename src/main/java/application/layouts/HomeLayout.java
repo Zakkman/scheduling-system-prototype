@@ -1,14 +1,16 @@
 package application.layouts;
 
 import application.views.HomeView;
-import application.views.LoginView;
+import application.views.securityviews.LoginView;
 import com.vaadin.flow.component.applayout.AppLayout;
 import com.vaadin.flow.component.html.H2;
 import com.vaadin.flow.component.orderedlayout.FlexComponent;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.tabs.Tab;
 import com.vaadin.flow.router.RouterLink;
+import jakarta.annotation.security.PermitAll;
 
+@PermitAll
 public class HomeLayout extends AppLayout {
 
     public HomeLayout() {
