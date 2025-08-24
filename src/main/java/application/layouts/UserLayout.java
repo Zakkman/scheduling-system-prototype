@@ -18,7 +18,6 @@ public class UserLayout extends AppLayout {
         H2 title = new H2("Scheduling System");
         Button logoutButton = new Button("Logout", event -> {
             authenticationContext.logout();
-            UI.getCurrent().getPage().setLocation("/");
         });
 
         HorizontalLayout header = new HorizontalLayout(title, logoutButton);
