@@ -1,6 +1,6 @@
 package application.security;
 
-import application.views.securityviews.LoginView;
+import application.views.anonymousviews.LoginView;
 import com.vaadin.flow.spring.security.VaadinAwareSecurityContextHolderStrategyConfiguration;
 import com.vaadin.flow.spring.security.VaadinSecurityConfigurer;
 import org.slf4j.LoggerFactory;

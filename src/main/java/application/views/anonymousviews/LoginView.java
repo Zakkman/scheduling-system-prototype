@@ -1,6 +1,7 @@
-package application.views.securityviews;
+package application.views.anonymousviews;
 
 import application.layouts.HomeLayout;
+import application.utils.RoleChecker;
 import com.vaadin.flow.component.html.H1;
 import com.vaadin.flow.component.login.LoginForm;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
@@ -8,7 +9,6 @@ import com.vaadin.flow.router.BeforeEnterEvent;
 import com.vaadin.flow.router.BeforeEnterObserver;
 import com.vaadin.flow.router.Route;
 import com.vaadin.flow.server.auth.AnonymousAllowed;
-import org.springframework.security.core.context.SecurityContextHolder;
 
 @Route(value = "login", layout = HomeLayout.class)
 @AnonymousAllowed
@@ -38,18 +38,7 @@ public class LoginView extends VerticalLayout implements BeforeEnterObserver {
             form.setError(true);
         }
 
-        // Check if a user is already authenticated
-        boolean isAuthenticated = SecurityContextHolder.getContext().getAuthentication() != null &&
-            SecurityContextHolder.getContext().getAuthentication().getPrincipal() instanceof org.springframework.security.core.userdetails.UserDetails;
-
-        if (isAuthenticated) {
-            // Redirect the user to their respective view if they try to access the LoginView after logging in
-            if (SecurityContextHolder.getContext().getAuthentication().getAuthorities().stream().anyMatch(a -> a.getAuthority().equals("ROLE_TEACHER"))) {
-                event.forwardTo("teacher");
-            } else if (SecurityContextHolder.getContext().getAuthentication().getAuthorities().stream().anyMatch(a -> a.getAuthority().equals("ROLE_STUDENT"))) {
-                event.forwardTo("student");
-            }
-        }
+        RoleChecker.redirectUserIfAuthenticated(event);
     }
 
 }

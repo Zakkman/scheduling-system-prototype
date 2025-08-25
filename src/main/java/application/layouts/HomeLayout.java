@@ -1,7 +1,7 @@
 package application.layouts;
 
-import application.views.HomeView;
-import application.views.securityviews.LoginView;
+import application.views.anonymousviews.HomeView;
+import application.views.anonymousviews.LoginView;
 import com.vaadin.flow.component.applayout.AppLayout;
 import com.vaadin.flow.component.html.H2;
 import com.vaadin.flow.component.orderedlayout.FlexComponent;
