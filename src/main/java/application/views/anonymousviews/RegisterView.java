@@ -1,4 +1,6 @@
 package application.views.anonymousviews;
 
-public class RegisterView {
+import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
+
+public class RegisterView extends HorizontalLayout {
 }
