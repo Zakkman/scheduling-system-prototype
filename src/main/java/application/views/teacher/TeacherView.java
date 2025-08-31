@@ -1,4 +1,4 @@
-package application.views.teacherviews;
+package application.views.teacher;
 
 import application.layouts.UserLayout;
 import com.vaadin.flow.component.html.H1;

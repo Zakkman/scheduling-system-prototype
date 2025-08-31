@@ -1,4 +1,4 @@
-package application.views.anonymousviews;
+package application.views.home;
 
 import application.layouts.HomeLayout;
 import application.utils.RoleChecker;

@@ -1,7 +1,8 @@
 package application.layouts;
 
-import application.views.anonymousviews.HomeView;
-import application.views.anonymousviews.LoginView;
+import application.views.home.HomeView;
+import application.views.home.LoginView;
+import application.views.registration.UserRegistrationView;
 import com.vaadin.flow.component.applayout.AppLayout;
 import com.vaadin.flow.component.html.H2;
 import com.vaadin.flow.component.orderedlayout.FlexComponent;
@@ -20,8 +21,9 @@ public class HomeLayout extends AppLayout {
 
         Tab homeTab = new Tab(new RouterLink("Home", HomeView.class));
         Tab loginTab = new Tab(new RouterLink("Login", LoginView.class));
+        Tab registerTab = new Tab(new RouterLink("Register", UserRegistrationView.class));
 
-        HorizontalLayout tabs = new HorizontalLayout(homeTab, loginTab);
+        HorizontalLayout tabs = new HorizontalLayout(homeTab, loginTab, registerTab);
         HorizontalLayout header = new HorizontalLayout(title, tabs);
         header.setWidthFull();
         header.setJustifyContentMode(FlexComponent.JustifyContentMode.BETWEEN);
