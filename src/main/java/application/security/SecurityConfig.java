@@ -1,17 +1,17 @@
 package application.security;
 
-import application.views.anonymousviews.LoginView;
+import application.repository.users.UserRepo;
+import application.views.home.LoginView;
 import com.vaadin.flow.spring.security.VaadinAwareSecurityContextHolderStrategyConfiguration;
 import com.vaadin.flow.spring.security.VaadinSecurityConfigurer;
-import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
-import org.springframework.security.core.userdetails.User;
-import org.springframework.security.provisioning.InMemoryUserDetailsManager;
-import org.springframework.security.provisioning.UserDetailsManager;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 
@@ -45,6 +45,22 @@ public class SecurityConfig {
         return http.build();
     }
 
+    /*
+    The issue is that even if you redirect a ROLE_STUDENT user to /teacher, the SecurityFilterChain
+    will immediately block their access because they don't have the required ROLE_TEACHER role. The
+    user will be denied access and likely redirected to an error page or the login page. The redirection
+    from the success handler will not override the security rules.
+
+    The customAuthenticationSuccessHandler is unnecessary for enforcing access. It's only needed
+    for guiding the user to a specific page after a successful login. However, if your goal is to
+    prevent a student from seeing a teacher's page, the SecurityFilterChain is what accomplishes this,
+    not the redirection handler.
+
+    Therefore, you can simplify your logic by having the customAuthenticationSuccessHandler
+    redirect all users to a generic entry point, like /, and rely on the SecurityFilterChain to
+    handle the specific page access permissions. This separates the concerns of what a user is
+    allowed to do (access control) from where they are sent after logging in (redirection).
+     */
     @Bean
     public AuthenticationSuccessHandler customAuthenticationSuccessHandler() {
         return (request, response, authentication) -> {
@@ -54,27 +70,23 @@ public class SecurityConfig {
             } else if (authentication.getAuthorities().stream().anyMatch(a ->
                 a.getAuthority().equals("ROLE_STUDENT"))) {
                 response.sendRedirect("/student");
+            } else if (authentication.getAuthorities().stream().anyMatch(a ->
+                a.getAuthority().equals("ROLE_ADMIN"))) {
+                response.sendRedirect("/admin");
             } else {
                 response.sendRedirect("/");
             }
         };
     }
 
-    //Development Demo
     @Bean
-    public UserDetailsManager userDetailsManager() {
-        LoggerFactory.getLogger(SecurityConfig.class)
-            .warn("Using in-memory user details manager!");
-        var student = User.withUsername("student")
-            .password("{noop}student")
-            .roles("STUDENT")
-            .build();
-        var teacher = User.withUsername("teacher")
-            .password("{noop}teacher")
-            .roles("TEACHER")
-            .build();
-        return new InMemoryUserDetailsManager(student, teacher);
+    public UserDetailsService userDetailsService(UserRepo userRepo) {
+        return new UserDetailsServiceImp1(userRepo);
     }
-    //Development Demo
+
+    @Bean
+    public PasswordEncoder passwordEncoder() {
+        return new BCryptPasswordEncoder();
+    }
 
 }

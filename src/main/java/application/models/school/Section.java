@@ -15,10 +15,19 @@ import lombok.Setter;
 @Getter
 @Setter
 @Entity
-public class Department extends AbstractEntity {
+public class Section extends AbstractEntity {
 
-    @NotBlank(message = "Department name is required")
+    @Enumerated(EnumType.STRING)
+    @NotNull(message = "Track is required")
+    private Track track;
+
+    @Enumerated(EnumType.STRING)
+    @NotNull(message = "Strand is required")
+    private Strand strand;
+
+    @NotBlank(message = "Section name is required")
     @Column(unique = true)
     private String name;
+    private String abbreviation;
 
 }

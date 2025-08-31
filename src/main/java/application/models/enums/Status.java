@@ -1,4 +1,4 @@
-package application.enums;
+package application.models.enums;
 
 public enum Status {
     PENDING,

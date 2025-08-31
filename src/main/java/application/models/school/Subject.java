@@ -4,7 +4,11 @@ import application.models.AbstractEntity;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.validation.constraints.NotBlank;
+import lombok.Getter;
+import lombok.Setter;
 
+@Getter
+@Setter
 @Entity
 public class Subject extends AbstractEntity {
 
@@ -12,11 +16,4 @@ public class Subject extends AbstractEntity {
     @Column(unique = true)
     private String name;
 
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
 }
