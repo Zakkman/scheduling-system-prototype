@@ -1,13 +1,7 @@
 package application.backend.school.services;
 
-import application.backend.school.models.Department;
-import application.backend.school.models.Section;
-import application.backend.school.models.Specialization;
-import application.backend.school.models.Subject;
-import application.backend.school.repositories.DepartmentRepo;
-import application.backend.school.repositories.SectionRepo;
-import application.backend.school.repositories.SpecializationRepo;
-import application.backend.school.repositories.SubjectRepo;
+import application.backend.school.models.*;
+import application.backend.school.repositories.*;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -15,31 +9,50 @@ import java.util.List;
 @Service
 public class SchoolService {
 
-    private final DepartmentRepo departmentRepo;
+    private final TrackRepo trackRepo;
+    private final StrandRepo strandRepo;
     private final SectionRepo sectionRepo;
     private final SpecializationRepo specializationRepo;
+    private final DepartmentRepo departmentRepo;
     private final SubjectRepo subjectRepo;
 
-    public SchoolService(DepartmentRepo departmentRepo,
-                         SectionRepo sectionRepo,
+    public SchoolService(TrackRepo trackRepo,
+                         StrandRepo strandRepo,
                          SpecializationRepo specializationRepo,
+                         SectionRepo sectionRepo,
+                         DepartmentRepo departmentRepo,
                          SubjectRepo subjectRepo) {
-        this.departmentRepo = departmentRepo;
-        this.sectionRepo = sectionRepo;
+        this.trackRepo = trackRepo;
+        this.strandRepo = strandRepo;
         this.specializationRepo = specializationRepo;
+        this.sectionRepo = sectionRepo;
+        this.departmentRepo = departmentRepo;
         this.subjectRepo = subjectRepo;
+
+        //TODO: make strand and track entities and repos
+
     }
 
-    public List<Department> getDepartments() {
-        return departmentRepo.findAll();
+    //TODO: make mock data to test registration
+
+    public List<Track> getTracks() {
+        return trackRepo.findAll();
+    }
+
+    public List<Strand> getStrands() {
+        return strandRepo.findAll();
+    }
+
+    public List<Specialization> getSpecializations() {
+        return specializationRepo.findAll();
     }
 
     public List<Section> getSections() {
         return sectionRepo.findAll();
     }
 
-    public List<Specialization> getSpecializations() {
-        return specializationRepo.findAll();
+    public List<Department> getDepartments() {
+        return departmentRepo.findAll();
     }
 
     public List<Subject> getSubjects() {

@@ -1,10 +1,10 @@
 package application.backend.users.models;
 
-import application.backend.school.models.Track;
-import application.backend.school.models.Strand;
 import application.backend.common.AbstractEntity;
 import application.backend.school.models.Specialization;
 import application.backend.school.models.Section;
+import application.backend.school.models.Strand;
+import application.backend.school.models.Track;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
@@ -15,7 +15,7 @@ import lombok.Setter;
 @Getter
 @Setter
 @Entity
-public class Student extends AbstractEntity {
+public class Student extends AbstractEntity implements SpecificUser<Student> {
 
     @OneToOne
     @NotNull
@@ -27,11 +27,11 @@ public class Student extends AbstractEntity {
     @NotBlank
     private String lrn;
 
-    @Enumerated(EnumType.STRING)
+    @ManyToOne
     @NotNull
     private Track track;
 
-    @Enumerated(EnumType.STRING)
+    @ManyToOne
     @NotNull
     private Strand strand;
 
@@ -46,5 +46,10 @@ public class Student extends AbstractEntity {
     @Lob
     @NotNull
     private byte[] verificationPhoto;
+
+    @Override
+    public Student getInstance() {
+        return this;
+    }
 
 }

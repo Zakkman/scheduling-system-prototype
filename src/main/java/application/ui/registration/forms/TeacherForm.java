@@ -1,13 +1,12 @@
-package application.ui.components.forms;
+package application.ui.registration.forms;
 
 import application.backend.school.models.Department;
 import application.backend.school.models.Section;
 import application.backend.school.models.Subject;
 import application.backend.users.models.Teacher;
-import application.ui.components.VerificationPhotoUpload;
 import com.vaadin.flow.component.checkbox.CheckboxGroup;
 import com.vaadin.flow.component.combobox.ComboBox;
-import com.vaadin.flow.component.formlayout.FormLayout;
+import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.data.binder.BeanValidationBinder;
 import com.vaadin.flow.data.binder.Binder;
@@ -16,7 +15,7 @@ import lombok.Getter;
 
 import java.util.List;
 
-public class TeacherForm extends FormLayout {
+public class TeacherForm extends SpecificUserForm<Teacher> {
     @Getter
     Binder<Teacher> binder = new BeanValidationBinder<>(Teacher.class);
 
@@ -24,10 +23,12 @@ public class TeacherForm extends FormLayout {
     ComboBox<Department> department = new ComboBox<>("Department");
     CheckboxGroup<Subject> subjectsHandled = new CheckboxGroup<>("Subjects Handled");
     CheckboxGroup<Section> sectionsHandled = new CheckboxGroup<>("Sections Handled");
-    VerificationPhotoUpload verificationPhoto =
-        new VerificationPhotoUpload("Upload verification photo (with ID in hand)");
+    PhotoUpload verificationPhoto =
+        new PhotoUpload("Upload verification photo (with ID in hand)");
 
-    public TeacherForm(List<Department> departments, List<Subject> subjects, List<Section> sections) {
+    public TeacherForm(List<Department> departments,
+                       List<Subject> subjects,
+                       List<Section> sections) {
         binder.bindInstanceFields(this);
 
         department.setItems(departments);
@@ -39,19 +40,24 @@ public class TeacherForm extends FormLayout {
         sectionsHandled.setItems(sections);
         sectionsHandled.setItemLabelGenerator(Section::getName);
 
-        add(
+        VerticalLayout formLayout = new VerticalLayout();
+        formLayout.add(
             teacherId,
             department,
             subjectsHandled,
             sectionsHandled,
             verificationPhoto
         );
+
+        add(formLayout);
     }
 
-    public Teacher getTeacher() throws ValidationException {
+    @Override
+    public Teacher getSpecificUser() throws ValidationException {
         Teacher teacher = new Teacher();
         binder.writeBean(teacher);
 
         return teacher;
     }
+
 }

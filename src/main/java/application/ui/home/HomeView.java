@@ -1,4 +1,4 @@
-package application.ui.views.home;
+package application.ui.home;
 
 import application.ui.layouts.HomeLayout;
 import application.backend.security.RoleChecker;

@@ -1,4 +1,4 @@
-package application.ui.components;
+package application.ui.registration.forms;
 
 import com.vaadin.flow.component.customfield.CustomField;
 import com.vaadin.flow.component.notification.Notification;
@@ -6,11 +6,11 @@ import com.vaadin.flow.component.upload.Upload;
 import com.vaadin.flow.server.streams.InMemoryUploadHandler;
 import com.vaadin.flow.server.streams.UploadHandler;
 
-public class VerificationPhotoUpload extends CustomField<byte[]> {
+public class PhotoUpload extends CustomField<byte[]> {
 
     Upload photoUpload;
 
-    public VerificationPhotoUpload(String label) {
+    public PhotoUpload(String label) {
         setLabel(label);
         photoUpload = new Upload(getPhotoDataHandler());
         configurePhotoUpload();

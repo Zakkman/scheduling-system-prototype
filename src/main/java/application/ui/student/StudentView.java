@@ -1,4 +1,4 @@
-package application.ui.views.teacher;
+package application.ui.student;
 
 import application.ui.layouts.UserLayout;
 import com.vaadin.flow.component.html.H1;
@@ -6,12 +6,12 @@ import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.router.Route;
 import jakarta.annotation.security.RolesAllowed;
 
-@Route(value = "teacher", layout = UserLayout.class)
-@RolesAllowed("TEACHER")
-public class TeacherView extends VerticalLayout {
+@Route(value = "student", layout = UserLayout.class)
+@RolesAllowed("STUDENT")
+public class StudentView extends VerticalLayout {
 
-    public TeacherView() {
-        add(new H1("Teacher is HERE"));
+    public StudentView() {
+        add(new H1("Student is ME"));
     }
 
 }

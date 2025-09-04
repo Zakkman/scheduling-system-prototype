@@ -10,12 +10,12 @@ import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
 import lombok.Setter;
 
-import java.util.List;
+import java.util.Set;
 
 @Getter
 @Setter
 @Entity
-public class Teacher extends AbstractEntity {
+public class Teacher extends AbstractEntity implements SpecificUser<Teacher> {
 
     @OneToOne
     @NotNull
@@ -36,7 +36,7 @@ public class Teacher extends AbstractEntity {
         joinColumns = @JoinColumn(name = "teacher_id"),
         inverseJoinColumns = @JoinColumn(name = "subject_id")
     )
-    private List<Subject> subjectsHandled;
+    private Set<Subject> subjectsHandled;
 
     @ManyToMany
     @JoinTable(
@@ -44,10 +44,15 @@ public class Teacher extends AbstractEntity {
         joinColumns = @JoinColumn(name = "teacher_id"),
         inverseJoinColumns = @JoinColumn(name = "section_id")
     )
-    private List<Section> sectionsHandled;
+    private Set<Section> sectionsHandled;
 
     @Lob
     @NotNull
     private byte[] verificationPhoto;
+
+    @Override
+    public Teacher getInstance() {
+        return this;
+    }
 
 }
