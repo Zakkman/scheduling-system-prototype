@@ -1,9 +1,10 @@
-package application.ui.components.forms;
+package application.ui.registration.forms;
 
 import application.backend.common.enums.Role;
 import application.backend.common.enums.Status;
 import application.backend.users.models.User;
 import com.vaadin.flow.component.formlayout.FormLayout;
+import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.textfield.EmailField;
 import com.vaadin.flow.component.textfield.PasswordField;
 import com.vaadin.flow.component.textfield.TextField;
@@ -37,7 +38,8 @@ public class UserForm extends FormLayout {
             })
             .bind(User::getPassword, User::setPassword);
 
-        add(
+        VerticalLayout formLayout = new VerticalLayout();
+        formLayout.add(
             firstName,
             lastName,
             middleName,
@@ -45,6 +47,8 @@ public class UserForm extends FormLayout {
             password,
             confirmPassword
         );
+
+        add(formLayout);
     }
 
     public User getUser(Role role, Status status) throws ValidationException {

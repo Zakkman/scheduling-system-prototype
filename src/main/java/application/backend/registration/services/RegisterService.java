@@ -29,7 +29,7 @@ public class RegisterService {
     public void registerStudent(RegistrationData registrationData) {
         User savedUser = userService.saveUser(registrationData.getUser());
 
-        Student student = registrationData.getStudent();
+        Student student = (Student) registrationData.getSpecificUser();
         student.setUser(savedUser);
         studentService.saveStudent(student);
     }
@@ -38,7 +38,7 @@ public class RegisterService {
     public void registerTeacher(RegistrationData registrationData) {
         User savedUser = userService.saveUser(registrationData.getUser());
 
-        Teacher teacher = registrationData.getTeacher();
+        Teacher teacher = (Teacher) registrationData.getSpecificUser();
         teacher.setUser(savedUser);
         teacherService.save(teacher);
     }

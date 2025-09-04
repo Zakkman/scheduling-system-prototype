@@ -1,11 +1,10 @@
-package application.ui.views.home.registration;
+package application.ui.registration;
 
-import application.ui.components.forms.StudentForm;
-import application.ui.layouts.HomeLayout;
-import application.backend.users.models.Student;
-import application.backend.registration.services.RegisterService;
+import application.backend.common.enums.Role;
 import application.backend.registration.services.RegistrationSessionService;
 import application.backend.school.services.SchoolService;
+import application.ui.layouts.HomeLayout;
+import application.ui.registration.forms.SpecificUserForm;
 import com.vaadin.flow.component.UI;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.notification.Notification;
@@ -14,29 +13,25 @@ import com.vaadin.flow.data.binder.ValidationException;
 import com.vaadin.flow.router.*;
 import com.vaadin.flow.server.auth.AnonymousAllowed;
 
-@Route(value = "register/student", layout = HomeLayout.class)
+@Route(value = "register/role", layout = HomeLayout.class)
 @AnonymousAllowed
-public class StudentRegistrationView extends VerticalLayout implements BeforeEnterObserver, BeforeLeaveObserver {
+public class RoleRegistrationView extends VerticalLayout implements BeforeEnterObserver, BeforeLeaveObserver {
 
     private final RegistrationSessionService registrationSessionService;
-    private final RegisterService registerService;
-    private final StudentForm studentForm;
+    private final SpecificUserForm<?> specificUserForm;
     private final Button registerButton;
 
-    public StudentRegistrationView(RegistrationSessionService registrationSessionService,
-                                   RegisterService registerService,
-                                   SchoolService schoolService) {
+    public RoleRegistrationView(RegistrationSessionService registrationSessionService,
+                                SchoolService schoolService) {
         this.registrationSessionService = registrationSessionService;
-        this.registerService = registerService;
-        this.studentForm = new StudentForm(
-            schoolService.getSpecializations(),
-            schoolService.getSections());
-        this.registerButton = new Button("Register");
+
+        specificUserForm = registrationSessionService.getSpecificUserForm();
+        registerButton = new Button("Register");
 
         configureRegisterButton();
 
         add(
-            studentForm,
+            specificUserForm,
             registerButton
         );
     }
@@ -44,15 +39,8 @@ public class StudentRegistrationView extends VerticalLayout implements BeforeEnt
     private void configureRegisterButton() {
         registerButton.addClickListener(click -> {
             try {
-                Student student = studentForm.getStudent();
-
-                registrationSessionService.saveStudent(student);
-
-                registerService.registerStudent(registrationSessionService.getRegistrationData());
-
-                Notification.show("Registration successful!");
-                UI.getCurrent().navigate("login");
-                registrationSessionService.clear();
+                registrationSessionService.saveSpecificUser(specificUserForm.getSpecificUser());
+                UI.getCurrent().navigate("register/verify");
             } catch (ValidationException e) {
                 Notification.show("Registration failed: " + e.getMessage());
             }
@@ -69,9 +57,10 @@ public class StudentRegistrationView extends VerticalLayout implements BeforeEnt
 
     @Override
     public void beforeLeave(BeforeLeaveEvent event) {
-        if (!event.getLocation().getPath().startsWith("register/")) {
+        if (!event.getLocation().getPath().equals("register/verify")) {
             registrationSessionService.clear();
             Notification.show("Registration data has been cleared.");
+            event.rerouteTo("register/user");
         }
     }
 

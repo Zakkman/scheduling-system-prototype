@@ -1,8 +1,7 @@
 package application.backend.registration.models;
 
 import application.backend.users.models.User;
-import application.backend.users.models.Student;
-import application.backend.users.models.Teacher;
+import application.backend.users.models.SpecificUser;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -10,6 +9,5 @@ import lombok.Setter;
 @Setter
 public class RegistrationData {
     private User user;
-    private Student student;
-    private Teacher teacher;
+    private SpecificUser<?> specificUser;
 }
