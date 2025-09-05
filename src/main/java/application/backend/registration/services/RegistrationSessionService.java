@@ -27,7 +27,7 @@ public class RegistrationSessionService implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
-//    public Role getRole() { return getUser().getRole(); }
+    public Role getRole() { return getUser().getRole(); }
 
     public User getUser() {
         return registrationData.getUser();
