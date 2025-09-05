@@ -3,6 +3,7 @@ package application.ui.registration.forms;
 import application.backend.common.enums.Role;
 import application.backend.common.enums.Status;
 import application.backend.users.models.User;
+import com.vaadin.flow.component.combobox.ComboBox;
 import com.vaadin.flow.component.formlayout.FormLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.textfield.EmailField;
@@ -24,19 +25,15 @@ public class UserForm extends FormLayout {
     EmailField email = new EmailField("Email");
     PasswordField password = new PasswordField("Password");
     PasswordField confirmPassword = new PasswordField("Confirm Password");
+    ComboBox<Role> role = new ComboBox<>("I am a: ");
 
     public UserForm() {
         binder.bindInstanceFields(this);
 
-        binder.forField(password)
-            .asRequired("must not be blank") //handles blank cus of @Transient annotation
-            .withValidator((value, context) -> {
-                if (!confirmPassword.getValue().equals(value)) {
-                    return ValidationResult.error("Password do not match");
-                }
-                return ValidationResult.ok();
-            })
-            .bind(User::getPassword, User::setPassword);
+        configurePasswordValidation();
+
+        role.setItems(Role.STUDENT, Role.TEACHER);
+        role.setItemLabelGenerator(Role::name);
 
         VerticalLayout formLayout = new VerticalLayout();
         formLayout.add(
@@ -45,17 +42,36 @@ public class UserForm extends FormLayout {
             middleName,
             email,
             password,
-            confirmPassword
+            confirmPassword,
+            role
         );
 
         add(formLayout);
     }
 
-    public User getUser(Role role, Status status) throws ValidationException {
+    private void configurePasswordValidation() {
+        binder.forField(password)
+            .asRequired("Password is required")
+            .bind(User::getPassword, User::setPassword);
+
+        binder.forField(confirmPassword)
+            .asRequired("Confirm password must not be blank")
+            .withValidator(value -> password.getValue().equals(value), "Passwords do not match")
+            .bind(user -> null, (user, value) -> {});
+
+        password.addValueChangeListener(change ->
+            binder.validate()
+        );
+
+        confirmPassword.addValueChangeListener(change -> {
+            binder.validate();
+        });
+    }
+
+    public User getUser(Status status) throws ValidationException {
         User user = new User();
         binder.writeBean(user);
 
-        user.setRole(role);
         user.setStatus(status);
 
         return user;

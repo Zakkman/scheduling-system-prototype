@@ -9,6 +9,7 @@ import application.backend.common.enums.Role;
 import application.backend.common.enums.Status;
 import application.backend.users.models.User;
 import application.backend.registration.services.RegistrationSessionService;
+import com.vaadin.flow.component.Component;
 import com.vaadin.flow.component.UI;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.combobox.ComboBox;
@@ -22,39 +23,36 @@ import com.vaadin.flow.server.auth.AnonymousAllowed;
 
 @Route(value = "register/user", layout = HomeLayout.class)
 @AnonymousAllowed
-public class UserRegistrationView extends VerticalLayout implements BeforeLeaveObserver {
+public class UserRegistrationView extends AbstractRegistrationView {
 
-    private final RegistrationSessionService registrationSessionService;
     private final SchoolService schoolService;
-    private final UserForm userForm;
-    private final ComboBox<Role> roleSelection;
-    private final Button nextButton;
 
     public UserRegistrationView(RegistrationSessionService registrationSessionService,
                                 SchoolService schoolService) {
-        this.registrationSessionService = registrationSessionService;
+        super(registrationSessionService);
         this.schoolService = schoolService;
-        this.userForm = new UserForm();
-        this.roleSelection = new ComboBox<>("I am a: ");
-        this.nextButton = new Button("Next");
-
-        roleSelection.setItems(Role.STUDENT, Role.TEACHER);
-        roleSelection.setItemLabelGenerator(Role::name);
-        roleSelection.setRequired(true);
-
-        configureNextButton();
-
-        add(
-            userForm,
-            roleSelection,
-            nextButton
-        );
     }
 
-    private void configureNextButton() {
+    @Override
+    protected void onEnter() {
+        add(createContent());
+    }
+
+    @Override
+    protected Component createContent() {
+        UserForm userForm = new UserForm();
+        Button nextButton = new Button("Next");
+
+        configureNextButton(userForm, nextButton);
+
+        return new VerticalLayout(userForm, nextButton);
+    }
+
+
+    private void configureNextButton(UserForm userForm, Button nextButton) {
         nextButton.addClickListener(click -> {
             try {
-                User user = userForm.getUser(roleSelection.getValue(), Status.PENDING);
+                User user = userForm.getUser(Status.PENDING);
 
                 registrationSessionService.saveUser(user);
 
@@ -81,11 +79,8 @@ public class UserRegistrationView extends VerticalLayout implements BeforeLeaveO
     }
 
     @Override
-    public void beforeLeave(BeforeLeaveEvent event) {
-        if (!event.getLocation().getPath().equals("register/role")) {
-            registrationSessionService.clear();
-            Notification.show("Registration data has been cleared.");
-        }
+    public String decideNextPath() {
+        return "register/role";
     }
 }
 

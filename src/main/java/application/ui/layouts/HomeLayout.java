@@ -4,7 +4,7 @@ import application.ui.home.HomeView;
 import application.ui.login.LoginView;
 import application.ui.registration.UserRegistrationView;
 import com.vaadin.flow.component.applayout.AppLayout;
-import com.vaadin.flow.component.html.H2;
+import com.vaadin.flow.component.html.H3;
 import com.vaadin.flow.component.orderedlayout.FlexComponent;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.tabs.Tab;
@@ -17,7 +17,7 @@ public class HomeLayout extends AppLayout {
     public HomeLayout() {
         setPrimarySection(Section.NAVBAR);
 
-        H2 title = new H2("Scheduling System");
+        H3 title = new H3("Scheduling System");
 
         Tab homeTab = new Tab(new RouterLink("Home", HomeView.class));
         Tab loginTab = new Tab(new RouterLink("Login", LoginView.class));
