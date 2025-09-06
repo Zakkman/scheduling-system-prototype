@@ -14,7 +14,7 @@ import lombok.Setter;
 @Getter
 @Setter
 @Entity
-@Table(name = "scheduling_system_user") // 'user' is a reserved keyword in some SQL databases
+@Table(name = "scheduling_system_user") // 'user' is a reserved akeyword in some SQL databases
 public class User extends AbstractEntity {
 
     @Size(min = 1, max = 50)

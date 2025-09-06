@@ -50,9 +50,4 @@ public class Teacher extends AbstractEntity implements SpecificUser<Teacher> {
     @NotNull
     private byte[] verificationPhoto;
 
-    @Override
-    public Teacher getInstance() {
-        return this;
-    }
-
 }

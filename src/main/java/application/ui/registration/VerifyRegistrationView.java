@@ -60,8 +60,6 @@ public class VerifyRegistrationView extends AbstractProtectedRegistrationView {
             boolean codeMatches = verifyForm.compareCode(CODE);
             Role role = registrationSessionService.getRole();
 
-            //TODO: continue this bruh finish this
-
             if (codeMatches) {
                 registerUserBasedOnRole(role);
                 Notification.show("Registration successful! You can now log in.");
@@ -83,6 +81,6 @@ public class VerifyRegistrationView extends AbstractProtectedRegistrationView {
 
     @Override
     public String decideNextPath() {
-        return null;
+        return "login";
     }
 }
