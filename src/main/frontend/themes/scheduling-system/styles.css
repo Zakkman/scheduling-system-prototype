@@ -1,0 +1,13 @@
+.home-view{
+    font-family: consolas;
+    background-color: lightslategray;
+}
+.hero-section{
+    background-color: rgba(33,50,70);
+    max-width: 900px;
+    margin: 80px auto;
+    padding: 40px;
+    border-radius: 20px;
+    text-align: center;
+    align-items: center;
+}
