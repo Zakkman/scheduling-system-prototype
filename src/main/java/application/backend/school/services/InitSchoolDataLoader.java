@@ -179,12 +179,16 @@ public class InitSchoolDataLoader implements CommandLineRunner {
     //DEMO
     private void loadDemoTeachers() {
         Department mathDept = departmentRepo.findByName("Mathematics").orElse(null);
+        Department englishDept = departmentRepo.findByName("English").orElse(null);
+        Department scienceDept = departmentRepo.findByName("Science").orElse(null);
         Subject pr2 = subjectRepo.findByName("Practical Research 2").orElse(null);
         Subject entrep = subjectRepo.findByName("Entrepreneurship").orElse(null);
         Subject philosophy = subjectRepo.findByName("Philosophy").orElse(null);
+
         Section apolinarioMabini = sectionRepo.findByName("Apolinario Mabini").orElse(null);
         Section haskell = sectionRepo.findByName("Haskell").orElse(null);
         Section swift = sectionRepo.findByName("Swift").orElse(null);
+        Section kotlin = sectionRepo.findByName("Kotlin").orElse(null);
 
         if (mathDept != null && pr2 != null && apolinarioMabini != null) {
             // Teacher 1
@@ -230,6 +234,72 @@ public class InitSchoolDataLoader implements CommandLineRunner {
             teacher2Data.setUser(teacher2User);
             teacher2Data.setSpecificUser(teacher2);
             registerService.registerTeacher(teacher2Data);
+
+            // Teacher 3
+            User teacher3User = new User();
+            teacher3User.setFirstName("Ada");
+            teacher3User.setLastName("Lovelace");
+            teacher3User.setMiddleName("Programming");
+            teacher3User.setEmail("ada.lovelace@example.com");
+            teacher3User.setPassword("teacherpass3");
+            teacher3User.setRole(Role.TEACHER);
+            teacher3User.setStatus(Status.PENDING);
+
+            Teacher teacher3 = new Teacher();
+            teacher3.setTeacherId("T-003");
+            teacher3.setDepartment(mathDept);
+            teacher3.setSubjectsHandled(Set.of(pr2));
+            teacher3.setSectionsHandled(Set.of(haskell, swift, kotlin));
+            teacher3.setVerificationPhoto(new byte[0]);
+
+            RegistrationData teacher3Data = new RegistrationData();
+            teacher3Data.setUser(teacher3User);
+            teacher3Data.setSpecificUser(teacher3);
+            registerService.registerTeacher(teacher3Data);
+
+            // Teacher 4
+            User teacher4User = new User();
+            teacher4User.setFirstName("Isaac");
+            teacher4User.setLastName("Newton");
+            teacher4User.setMiddleName("Calculus");
+            teacher4User.setEmail("isaac.newton@example.com");
+            teacher4User.setPassword("teacherpass4");
+            teacher4User.setRole(Role.TEACHER);
+            teacher4User.setStatus(Status.PENDING);
+
+            Teacher teacher4 = new Teacher();
+            teacher4.setTeacherId("T-004");
+            teacher4.setDepartment(englishDept);
+            teacher4.setSubjectsHandled(Set.of(philosophy, entrep));
+            teacher4.setSectionsHandled(Set.of(apolinarioMabini, kotlin));
+            teacher4.setVerificationPhoto(new byte[0]);
+
+            RegistrationData teacher4Data = new RegistrationData();
+            teacher4Data.setUser(teacher4User);
+            teacher4Data.setSpecificUser(teacher4);
+            registerService.registerTeacher(teacher4Data);
+
+            // Teacher 5
+            User teacher5User = new User();
+            teacher5User.setFirstName("Rosalind");
+            teacher5User.setLastName("Franklin");
+            teacher5User.setMiddleName("Xray");
+            teacher5User.setEmail("rosalind.franklin@example.com");
+            teacher5User.setPassword("teacherpass5");
+            teacher5User.setRole(Role.TEACHER);
+            teacher5User.setStatus(Status.PENDING);
+
+            Teacher teacher5 = new Teacher();
+            teacher5.setTeacherId("T-005");
+            teacher5.setDepartment(scienceDept);
+            teacher5.setSubjectsHandled(Set.of(pr2));
+            teacher5.setSectionsHandled(Set.of(swift, haskell));
+            teacher5.setVerificationPhoto(new byte[0]);
+
+            RegistrationData teacher5Data = new RegistrationData();
+            teacher5Data.setUser(teacher5User);
+            teacher5Data.setSpecificUser(teacher5);
+            registerService.registerTeacher(teacher5Data);
         }
     }
     //DEMO
