@@ -1,7 +1,6 @@
 package application.ui.registration;
 
 import application.backend.registration.services.RegistrationSessionService;
-import com.vaadin.flow.component.Component;
 import com.vaadin.flow.component.notification.Notification;
 import com.vaadin.flow.router.BeforeEnterEvent;
 

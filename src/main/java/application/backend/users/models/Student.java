@@ -47,9 +47,4 @@ public class Student extends AbstractEntity implements SpecificUser<Student> {
     @NotNull
     private byte[] verificationPhoto;
 
-    @Override
-    public Student getInstance() {
-        return this;
-    }
-
 }
