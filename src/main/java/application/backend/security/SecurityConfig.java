@@ -1,7 +1,7 @@
 package application.backend.security;
 
 import application.backend.users.repositories.UserRepo;
-import application.ui.login.LoginView;
+import application.ui.views.login.LoginView;
 import com.vaadin.flow.spring.security.VaadinAwareSecurityContextHolderStrategyConfiguration;
 import com.vaadin.flow.spring.security.VaadinSecurityConfigurer;
 import org.springframework.context.annotation.Bean;
