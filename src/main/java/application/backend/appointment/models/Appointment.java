@@ -22,11 +22,11 @@ public class Appointment extends AbstractEntity {
 
     @ManyToOne
     @NotNull
-    private User appointee;
+    private User appointer;
 
     @ManyToOne
     @NotNull
-    private User appointer;
+    private User appointee;
 
     @NotNull
     private LocalDate date;

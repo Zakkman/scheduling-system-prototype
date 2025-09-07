@@ -1,10 +1,12 @@
 package application.ui.components.grids;
 
 import application.backend.users.models.Teacher;
+import application.backend.users.models.User;
 import application.backend.users.services.TeacherService;
 import application.ui.components.profiles.TeacherProfile;
 import com.vaadin.flow.component.Component;
 import com.vaadin.flow.component.grid.Grid;
+import com.vaadin.flow.component.orderedlayout.FlexLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.textfield.TextField;
 import lombok.Getter;
@@ -21,6 +23,7 @@ public class TeacherProfileGrid extends VerticalLayout {
     TextField searchBySchoolDeta = new TextField();
 
     public TeacherProfileGrid(TeacherService teacherService) {
+        addClassName("teacher-profile-grid");
         this.teacherService = teacherService;
 
         configureGrid();
@@ -33,17 +36,25 @@ public class TeacherProfileGrid extends VerticalLayout {
         updateList();
     }
 
+    //TODO: make sure this works
+
     private void configureGrid() {
         teacherGrid.setColumns();
         teacherGrid.removeAllHeaderRows();
-        teacherGrid.addComponentColumn(TeacherProfile::new)
+        teacherGrid.addComponentColumn(teacher -> {
+                User user = teacher.getUser();
+                return new TeacherProfile(teacher, user);
+            })
             .setFlexGrow(1)
             .setAutoWidth(true);
     }
 
     private Component createToolBar() {
-        VerticalLayout toolBar = new VerticalLayout(searchByName, searchBySchoolDeta);
-        toolBar.setPadding(false);
+        FlexLayout toolBar = new FlexLayout(searchByName, searchBySchoolDeta);
+        toolBar.addClassNames("teacher-profile-grid-toolbar");
+        toolBar.setWidthFull();
+        toolBar.setFlexWrap(FlexLayout.FlexWrap.WRAP);
+
         return toolBar;
     }
 

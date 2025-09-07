@@ -1,0 +1,44 @@
+.profile-name-wrap {
+    white-space: normal;
+}
+
+.truncate {
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}
+
+.teacher-profile {
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    padding: 10px;
+    margin: 0;
+}
+
+.teacher-profile-subtitle {
+    font-size: var(--lumo-font-size-s);
+    color: var(--lumo-tertiary-text-color);
+}
+
+.teacher-profile-grid {
+    box-shadow: 0 0 10px 5px rgba(0, 0, 0, 0.1);
+    border-radius: 10px;
+    max-width: 1200px;
+}
+
+.teacher-profile-grid-toolbar {
+    column-gap: var(--lumo-space-m);
+
+}
+
+.scheduling-dialog {
+    max-width: 800px;
+}
+
+.home-layout-header {
+    padding-left: var(--lumo-space-m);
+}
+
+.user-layout-header {
+    padding-left: var(--lumo-space-m);
+}

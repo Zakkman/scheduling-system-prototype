@@ -24,6 +24,8 @@ public class AppointmentService {
         return repo.findByDateBetween(startDate, endDate);
     }
 
+    //TODO: make the get appointments methods
+
     public void saveAppointment(Appointment appointment) {
         repo.save(appointment);
     }

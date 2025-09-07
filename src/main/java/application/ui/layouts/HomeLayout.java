@@ -25,7 +25,9 @@ public class HomeLayout extends AppLayout {
 
         HorizontalLayout tabs = new HorizontalLayout(homeTab, loginTab, registerTab);
         HorizontalLayout header = new HorizontalLayout(title, tabs);
+        header.addClassName("home-layout-header");
         header.setWidthFull();
+        header.setAlignItems(FlexComponent.Alignment.CENTER);
         header.setJustifyContentMode(FlexComponent.JustifyContentMode.BETWEEN);
 
         addToNavbar(header);
