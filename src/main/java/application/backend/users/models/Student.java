@@ -46,5 +46,4 @@ public class Student extends AbstractEntity implements SpecificUser<Student> {
     @Lob
     @NotNull
     private byte[] verificationPhoto;
-
 }

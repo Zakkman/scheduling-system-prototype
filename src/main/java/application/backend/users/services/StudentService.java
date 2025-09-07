@@ -1,8 +1,11 @@
 package application.backend.users.services;
 
 import application.backend.users.models.Student;
+import application.backend.users.models.User;
 import application.backend.users.repositories.StudentRepo;
 import org.springframework.stereotype.Service;
+
+import java.util.Optional;
 
 @Service
 public class StudentService {
@@ -15,5 +18,9 @@ public class StudentService {
 
     public Student saveStudent(Student student) {
         return repo.save(student);
+    }
+
+    public Optional<Student> findByUser(User user) {
+        return repo.findById(user.getId());
     }
 }

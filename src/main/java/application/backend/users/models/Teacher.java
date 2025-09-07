@@ -49,5 +49,4 @@ public class Teacher extends AbstractEntity implements SpecificUser<Teacher> {
     @Lob
     @NotNull
     private byte[] verificationPhoto;
-
 }

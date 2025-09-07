@@ -9,8 +9,6 @@ import com.vaadin.flow.data.binder.Binder;
 
 public class VerifyForm extends FormLayout {
 
-    /*TODO: - add binder here and expected code field and validate it that way
-     */
     private final H2 header;
     private final Text instructions;
     private final TextField codeInput;
