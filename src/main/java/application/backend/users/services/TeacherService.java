@@ -1,29 +1,30 @@
 package application.backend.users.services;
 
 import application.backend.users.models.Teacher;
+import application.backend.users.models.User;
 import application.backend.users.repositories.TeacherRepo;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
-public class TeacherService {
-
-    private final TeacherRepo repo;
+public class TeacherService extends SpecificUserServiceImpl<Teacher, TeacherRepo> {
 
     public TeacherService(TeacherRepo repo) {
-        this.repo = repo;
+        super(repo);
     }
 
-    public Teacher save(Teacher teacher) {
-        return repo.save(teacher);
+    public Optional<Teacher> findByUser(User user) {
+        return repo.findById(user.getId());
     }
 
-    public List<Teacher> findAllTeachers(String nameFilter, String schoolDateFilter) {
+    @Override
+    public List<Teacher> search(String nameFilter, String schoolDataFilter) {
         String nameTerm = (nameFilter == null || nameFilter.isBlank())
             ? "" : nameFilter;
-        String schoolDataTerm = (schoolDateFilter == null || schoolDateFilter.isBlank())
-            ? "" : schoolDateFilter;
+        String schoolDataTerm = (schoolDataFilter == null || schoolDataFilter.isBlank())
+            ? "" : schoolDataFilter;
         return repo.search(nameTerm, schoolDataTerm);
     }
 }

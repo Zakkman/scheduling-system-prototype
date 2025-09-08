@@ -1,9 +1,10 @@
 package application.backend.security;
 
 import application.backend.users.repositories.UserRepo;
-import application.ui.views.login.LoginView;
+import application.ui.home.views.LoginView;
 import com.vaadin.flow.spring.security.VaadinAwareSecurityContextHolderStrategyConfiguration;
 import com.vaadin.flow.spring.security.VaadinSecurityConfigurer;
+import org.springframework.boot.autoconfigure.security.servlet.PathRequest;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
@@ -26,6 +27,7 @@ public class SecurityConfig {
             .requestMatchers("/", "/login", "/logout", "/public/**").permitAll()
             .requestMatchers("/student").hasRole("STUDENT")
             .requestMatchers("/teacher").hasRole("TEACHER")
+            .requestMatchers(PathRequest.toH2Console()).permitAll()
         );
 
         http.with(VaadinSecurityConfigurer.vaadin(), configurer -> {
@@ -40,6 +42,13 @@ public class SecurityConfig {
             .logoutSuccessUrl("/")
             .invalidateHttpSession(true)
             .clearAuthentication(true)
+        );
+
+        http.csrf(csrf ->
+            csrf.ignoringRequestMatchers(PathRequest.toH2Console())
+        );
+        http.headers(headers ->
+            headers.frameOptions(frameOptions -> frameOptions.sameOrigin())
         );
 
         return http.build();
@@ -81,7 +90,7 @@ public class SecurityConfig {
 
     @Bean
     public UserDetailsService userDetailsService(UserRepo userRepo) {
-        return new UserDetailsServiceImp1(userRepo);
+        return new UserDetailsServiceImpl(userRepo);
     }
 
     @Bean

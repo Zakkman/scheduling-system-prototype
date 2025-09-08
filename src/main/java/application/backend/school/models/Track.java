@@ -18,4 +18,6 @@ public class Track extends AbstractEntity {
     @Column(unique = true)
     private String name;
 
+    private String abbreviation;
+
 }
