@@ -3,10 +3,7 @@ package application.backend.appointment.models;
 import application.backend.common.AbstractEntity;
 import application.backend.users.models.SpecificUser;
 import application.backend.users.models.User;
-import jakarta.persistence.Entity;
-import jakarta.persistence.EnumType;
-import jakarta.persistence.Enumerated;
-import jakarta.persistence.ManyToOne;
+import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
@@ -20,11 +17,13 @@ import java.time.LocalTime;
 @Entity
 public class Appointment extends AbstractEntity {
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "appointer_id")
     @NotNull
     private User appointer;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "appointee_id")
     @NotNull
     private User appointee;
 

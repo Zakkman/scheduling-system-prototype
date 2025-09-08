@@ -6,7 +6,7 @@ import application.backend.users.models.SpecificUser;
 import application.backend.users.models.Student;
 import application.backend.users.models.Teacher;
 import application.backend.users.models.User;
-import application.ui.components.forms.registration.SpecificUserForm;
+import application.ui.home.forms.SpecificUserForm;
 import lombok.Getter;
 import lombok.Setter;
 import org.springframework.stereotype.Service;

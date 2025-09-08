@@ -1,8 +1,8 @@
 package application.ui.layouts;
 
-import application.ui.views.home.HomeView;
-import application.ui.views.login.LoginView;
-import application.ui.views.registration.UserRegistrationView;
+import application.ui.home.views.HomeView;
+import application.ui.home.views.LoginView;
+import application.ui.home.views.UserRegistrationView;
 import com.vaadin.flow.component.applayout.AppLayout;
 import com.vaadin.flow.component.html.H3;
 import com.vaadin.flow.component.orderedlayout.FlexComponent;

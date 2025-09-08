@@ -5,6 +5,8 @@ import application.backend.users.repositories.UserRepo;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.Optional;
+
 @Service
 public class UserService {
 
@@ -24,5 +26,9 @@ public class UserService {
         user.setPassword(null);
 
         return repo.save(user);
+    }
+
+    public Optional<User> findByUser(User user) {
+        return repo.findById(user.getId());
     }
 }

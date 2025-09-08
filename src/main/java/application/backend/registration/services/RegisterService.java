@@ -31,7 +31,7 @@ public class RegisterService {
 
         Student student = (Student) registrationData.getSpecificUser();
         student.setUser(savedUser);
-        studentService.saveStudent(student);
+        studentService.save(student);
     }
 
     @Transactional
