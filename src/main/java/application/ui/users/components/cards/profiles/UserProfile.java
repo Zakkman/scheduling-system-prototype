@@ -2,9 +2,11 @@ package application.ui.users.components.cards.profiles;
 
 import application.backend.users.models.SpecificUser;
 import application.backend.users.models.User;
+import application.ui.util.ColorGenerator;
 import com.vaadin.flow.component.Component;
 import com.vaadin.flow.component.avatar.Avatar;
 import com.vaadin.flow.component.card.Card;
+import com.vaadin.flow.component.card.CardVariant;
 import com.vaadin.flow.component.html.Div;
 import com.vaadin.flow.component.html.Span;
 import com.vaadin.flow.component.icon.Icon;
@@ -29,6 +31,10 @@ public abstract class UserProfile<T extends SpecificUser<?>> extends Card {
         setSubtitle(createSchoolUnit());
         setHeaderPrefix(createAvatar());
         setHeaderSuffix(createDetails());
+
+        String schoolUnitName = getSchoolUnitName();
+        String backgroundColor = ColorGenerator.generateColorFromName(schoolUnitName);
+        getElement().getStyle().set("background-color", backgroundColor);
     }
 
     private Component createName() {
@@ -42,7 +48,7 @@ public abstract class UserProfile<T extends SpecificUser<?>> extends Card {
 
     private Component createSchoolUnit() {
         String schoolUnitName = getSchoolUnitName();
-        Span schoolUnitSpan = new Span(schoolUnitName + " Department");
+        Span schoolUnitSpan = new Span(schoolUnitName);
         schoolUnitSpan.addClassName("teacher-profile-subtitle");
         schoolUnitSpan.addClassName("truncate");
 

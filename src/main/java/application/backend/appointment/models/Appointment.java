@@ -36,6 +36,9 @@ public class Appointment extends AbstractEntity {
     private LocalTime endTime;
 
     @NotBlank
+    private String place;
+
+    @NotBlank
     private String description;
 
     @Enumerated(EnumType.STRING)

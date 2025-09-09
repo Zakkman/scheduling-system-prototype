@@ -5,6 +5,8 @@ import application.backend.users.services.SpecificUserService;
 import application.ui.users.components.cards.profiles.UserProfile;
 import com.vaadin.flow.component.Component;
 import com.vaadin.flow.component.grid.Grid;
+import com.vaadin.flow.component.grid.GridVariant;
+import com.vaadin.flow.component.html.H3;
 import com.vaadin.flow.component.orderedlayout.FlexLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.textfield.TextField;
@@ -26,7 +28,8 @@ public class ProfileGrid<T extends SpecificUser<?>> extends VerticalLayout {
     private final Function<T, UserProfile<T>> cardFactory;
     private final BiFunction<String, String, List<T>> searchFunction;
 
-    public ProfileGrid(Class<T> beanType,
+    public ProfileGrid(String header,
+                       Class<T> beanType,
                        SpecificUserService<T> service,
                        Function<T, UserProfile<T>> cardFactory,
                        BiFunction<String, String, List<T>> searchFunction) {
@@ -37,7 +40,7 @@ public class ProfileGrid<T extends SpecificUser<?>> extends VerticalLayout {
 
         addClassName("profile-grid");
 
-        configureGrid();
+        configureGrid(header);
         configureSearchFields();
 
         add(createToolBar(), grid);
@@ -46,10 +49,12 @@ public class ProfileGrid<T extends SpecificUser<?>> extends VerticalLayout {
         updateGrid();
     }
 
-    private void configureGrid() {
-        grid.removeAllHeaderRows();
+    private void configureGrid(String header) {
+        grid.addClassName("no-padding-cell");
+        grid.addThemeVariants(GridVariant.LUMO_ROW_STRIPES);
         grid.setColumns();
         grid.addComponentColumn(this.cardFactory::apply)
+            .setHeader(new H3(header))
             .setFlexGrow(1)
             .setAutoWidth(true);
     }

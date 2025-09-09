@@ -2,7 +2,7 @@ package application.ui.home.views;
 
 import application.ui.layouts.HomeLayout;
 import application.backend.security.RoleChecker;
-import com.vaadin.flow.component.html.H1;
+import com.vaadin.flow.component.AttachEvent;
 import com.vaadin.flow.component.login.LoginForm;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.router.BeforeEnterEvent;
@@ -22,11 +22,17 @@ public class LoginView extends VerticalLayout implements BeforeEnterObserver {
         setJustifyContentMode(JustifyContentMode.CENTER);
 
         form.setAction("login");
+        form.getElement().getThemeList().set("dark", true);
 
         add(
-            new H1("Scheduling System"),
             form
         );
+    }
+
+    @Override
+    protected void onAttach(AttachEvent attachEvent) {
+        super.onAttach(attachEvent);
+        form.getElement().executeJs("this.querySelector('vaadin-text-field').setAttribute('label', 'Email');");
     }
 
     @Override

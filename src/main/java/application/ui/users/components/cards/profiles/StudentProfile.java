@@ -20,7 +20,7 @@ public class StudentProfile extends UserProfile<Student> {
 
     @Override
     String getSchoolUnitName() {
-        return specificUser.getSection().getName();
+        return specificUser.getSection().getName() + " Section";
     }
 
     @Override

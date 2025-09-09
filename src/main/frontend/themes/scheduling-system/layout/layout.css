@@ -1,0 +1,7 @@
+.home-layout-header, .user-layout-header {
+    padding-left: var(--lumo-space-m);
+}
+
+.user-layout-header {
+    padding-left: var(--lumo-space-m);
+}

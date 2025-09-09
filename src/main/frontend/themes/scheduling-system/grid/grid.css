@@ -1,0 +1,14 @@
+.no-padding-cell::part(body-cell) {
+    --vaadin-grid-cell-padding: 0.25em 0.5em !important;
+}
+
+.profile-grid, .appointment-card-grid {
+    box-shadow: 0 0 10px 5px rgba(0, 0, 0, 0.1);
+    border-radius: 10px;
+    padding: var(--lumo-space-s);
+    max-width: 1200px;
+}
+
+.profile-grid-toolbar, .appointment-grid-toolbar {
+    column-gap: var(--lumo-space-m);
+}

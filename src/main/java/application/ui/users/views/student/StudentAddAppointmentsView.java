@@ -6,27 +6,27 @@ import application.backend.appointment.services.AppointmentService;
 import application.backend.security.CustomUserDetails;
 import application.backend.users.models.Teacher;
 import application.backend.users.models.User;
-import application.backend.users.services.StudentService;
 import application.backend.users.services.TeacherService;
 import application.backend.users.services.UserService;
+import application.ui.layouts.StudentLayout;
 import application.ui.users.components.grids.ProfileGrid;
 import application.ui.users.components.scheduling.SchedulingDialog;
 import application.ui.users.components.scheduling.SchedulingForm;
-import application.ui.layouts.UserLayout;
 import application.ui.users.components.cards.profiles.TeacherProfile;
-import com.vaadin.flow.component.UI;
 import com.vaadin.flow.component.notification.Notification;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.data.binder.ValidationException;
 import com.vaadin.flow.router.BeforeEnterEvent;
 import com.vaadin.flow.router.BeforeEnterObserver;
+import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
 import jakarta.annotation.security.RolesAllowed;
 import org.springframework.security.core.context.SecurityContextHolder;
 
-@Route(value = "student", layout = UserLayout.class)
+@Route(value = "student/add/appointments", layout = StudentLayout.class)
 @RolesAllowed("STUDENT")
-public class StudentView extends VerticalLayout implements BeforeEnterObserver {
+@PageTitle("Schedule Appointments")
+public class StudentAddAppointmentsView extends VerticalLayout implements BeforeEnterObserver {
 
     private final AppointmentService appointmentService;
     private final UserService userService;
@@ -35,13 +35,14 @@ public class StudentView extends VerticalLayout implements BeforeEnterObserver {
     private SchedulingDialog schedulingDialog;
     private User appointer;
 
-    public StudentView(UserService userService,
-                       AppointmentService appointmentService,
-                       TeacherService teacherService) {
+    public StudentAddAppointmentsView(UserService userService,
+                                      AppointmentService appointmentService,
+                                      TeacherService teacherService) {
         this.userService = userService;
         this.appointmentService = appointmentService;
 
         this.teacherProfileGrid = new ProfileGrid<>(
+            "Teachers: ",
             Teacher.class,
             teacherService, teacher -> new TeacherProfile(teacher, teacher.getUser()),
             teacherService::search

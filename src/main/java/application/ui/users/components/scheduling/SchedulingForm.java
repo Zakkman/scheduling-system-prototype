@@ -34,6 +34,7 @@ public class SchedulingForm extends VerticalLayout {
 
     private final UserProfileContainer selectedUserProfileContainer;
 
+    TextArea place = new TextArea("Place");
     TextArea description = new TextArea("Description");
     DatePicker date = new DatePicker("Select Date");
     TimePicker startTime = new TimePicker("Start Time");
@@ -59,6 +60,7 @@ public class SchedulingForm extends VerticalLayout {
         add(
             title,
             selectedUserProfileContainer,
+            place,
             description,
             date,
             startTime,
@@ -71,6 +73,7 @@ public class SchedulingForm extends VerticalLayout {
         for (HasSize component : new HasSize[] {
             title,
             selectedUserProfileContainer,
+            place,
             description,
             date,
             startTime,
@@ -141,10 +144,11 @@ public class SchedulingForm extends VerticalLayout {
     public void clearFields() {
         binder.readBean(null);
 
+        place.clear();
+        description.clear();
         date.clear();
         startTime.clear();
         endTime.clear();
-        description.clear();
     }
 
     private Optional<Appointment> getAppointment() throws ValidationException {

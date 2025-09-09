@@ -1,59 +1,8 @@
+@import 'dialog/dialog.css';
+@import 'grid/grid.css';
+@import 'layout/layout.css';
+@import 'profile/profile.css';
+
 * {
     touch-action: manipulation;
-}
-
-.user-profile {
-    border: none !important;
-}
-
-.user-profile [part="header"] {
-    outline: none !important;
-}
-
-.profile-name-wrap {
-    white-space: normal;
-}
-
-.truncate {
-    overflow: hidden;
-    white-space: nowrap;
-    text-overflow: ellipsis;
-}
-
-.teacher-profile {
-    border: 1px solid #ccc;
-    padding: 10px;
-    margin: 0;
-}
-
-.profile-subtitle {
-    font-size: var(--lumo-font-size-s);
-    color: var(--lumo-tertiary-text-color);
-}
-
-.profile-grid {
-    box-shadow: 0 0 10px 5px rgba(0, 0, 0, 0.1);
-    border-radius: 10px;
-    padding: var(--lumo-space-s);
-    max-width: 1200px;
-}
-
-.profile-grid-toolbar {
-    column-gap: var(--lumo-space-m);
-}
-
-.scheduling-dialog {
-    max-width: 800px;
-}
-
-.scheduling-dialog::part(content) {
-    padding: 0.2rem !important;
-}
-
-.home-layout-header {
-    padding-left: var(--lumo-space-m);
-}
-
-.user-layout-header {
-    padding-left: var(--lumo-space-m);
 }

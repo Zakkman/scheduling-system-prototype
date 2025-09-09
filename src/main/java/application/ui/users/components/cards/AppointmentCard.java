@@ -21,8 +21,8 @@ public abstract class AppointmentCard extends Card {
         this.appointment = appointment;
         addClassName("appointment-card");
 
-        add(createTitle(currentUser));
-        add(createSubtitle());
+        setTitle(createTitle(currentUser));
+        setSubtitle(createSubtitle());
         add(createProfile(userProfile));
     }
 
@@ -32,7 +32,7 @@ public abstract class AppointmentCard extends Card {
                 if (currentUser.equals(app.getAppointer())) {
                     return Optional.ofNullable(app.getAppointee()).map(User::getRole);
                 } else {
-                    return Optional.ofNullable(app.getAppointee()).map(User::getRole);
+                    return Optional.ofNullable(app.getAppointer()).map(User::getRole);
                 }
             });
 
@@ -65,7 +65,13 @@ public abstract class AppointmentCard extends Card {
 
     private Component createProfile(UserProfile<?> userProfile) {
         VerticalLayout bodyLayout = new VerticalLayout();
+        bodyLayout.setPadding(false);
         bodyLayout.addClassName("appointment-card-body");
+
+        String place = Optional.ofNullable(appointment)
+            .map(Appointment::getPlace)
+            .orElse("No place provided.");
+        Div placeDiv = new Div("Place: " + place);
 
         String description = Optional.ofNullable(appointment)
             .map(Appointment::getDescription)
@@ -78,7 +84,9 @@ public abstract class AppointmentCard extends Card {
             bodyLayout.add(new Div("User profile not available."));
         }
 
-        bodyLayout.add(descriptionDiv);
+        userProfile.setWidthFull();
+
+        bodyLayout.add(descriptionDiv, placeDiv);
         return bodyLayout;
     }
 
