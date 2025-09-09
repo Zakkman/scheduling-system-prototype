@@ -25,8 +25,8 @@ public class SecurityConfig {
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http.authorizeHttpRequests(auth -> auth
             .requestMatchers("/", "/login", "/logout", "/public/**").permitAll()
-            .requestMatchers("/student").hasRole("STUDENT")
-            .requestMatchers("/teacher").hasRole("TEACHER")
+            .requestMatchers("/student/appointments").hasRole("STUDENT")
+            .requestMatchers("/teacher/appointments").hasRole("TEACHER")
             .requestMatchers(PathRequest.toH2Console()).permitAll()
         );
 
@@ -75,10 +75,10 @@ public class SecurityConfig {
         return (request, response, authentication) -> {
             if (authentication.getAuthorities().stream().anyMatch(a ->
                 a.getAuthority().equals("ROLE_TEACHER"))) {
-                response.sendRedirect("/teacher");
+                response.sendRedirect("/teacher/appointments");
             } else if (authentication.getAuthorities().stream().anyMatch(a ->
                 a.getAuthority().equals("ROLE_STUDENT"))) {
-                response.sendRedirect("/student");
+                response.sendRedirect("/student/appointments");
             } else if (authentication.getAuthorities().stream().anyMatch(a ->
                 a.getAuthority().equals("ROLE_ADMIN"))) {
                 response.sendRedirect("/admin");

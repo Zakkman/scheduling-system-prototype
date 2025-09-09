@@ -13,10 +13,10 @@ public final class RoleChecker {
         if (isAuthenticated) {
             if (SecurityContextHolder.getContext().getAuthentication().getAuthorities().stream()
                 .anyMatch(a -> a.getAuthority().equals("ROLE_TEACHER"))) {
-                event.forwardTo("teacher");
+                event.forwardTo("teacher/appointments");
             } else if (SecurityContextHolder.getContext().getAuthentication().getAuthorities().stream()
                 .anyMatch(a -> a.getAuthority().equals("ROLE_STUDENT"))) {
-                event.forwardTo("student");
+                event.forwardTo("student/appointments");
             }
         }
     }

@@ -1,9 +1,9 @@
 package application.ui.home.views;
 
 import application.backend.school.services.SchoolService;
-import application.ui.home.forms.StudentForm;
-import application.ui.home.forms.TeacherForm;
-import application.ui.home.forms.UserForm;
+import application.ui.home.components.forms.StudentForm;
+import application.ui.home.components.forms.TeacherForm;
+import application.ui.home.components.forms.UserForm;
 import application.ui.home.AbstractRegistrationView;
 import application.ui.layouts.HomeLayout;
 import application.backend.common.enums.Role;

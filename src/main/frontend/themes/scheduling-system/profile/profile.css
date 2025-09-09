@@ -1,0 +1,23 @@
+.user-profile {
+    border: none !important;
+}
+
+.user-profile [part="header"] {
+    outline: none !important;
+}
+
+.profile-name-wrap {
+    white-space: normal;
+}
+
+.profile-subtitle {
+    font-weight: bold;
+    font-size: var(--lumo-font-size-s);
+    color: var(--lumo-header-text-color);
+}
+
+.teacher-profile {
+    border: 1px solid #ccc;
+    padding: 10px;
+    margin: 0;
+}

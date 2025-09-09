@@ -43,4 +43,7 @@ public class RegisterService {
         teacherService.save(teacher);
     }
 
+    public boolean isEmailTaken(String userEmail) {
+        return userService.isEmailTaken(userEmail);
+    }
 }

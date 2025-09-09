@@ -6,6 +6,7 @@ import com.vaadin.flow.theme.Theme;
 import com.vaadin.flow.theme.lumo.Lumo;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.scheduling.annotation.EnableScheduling;
 
 /**
  * The entry point of the Spring Boot application.
@@ -15,6 +16,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
  *
  */
 @SpringBootApplication
+@EnableScheduling
 @PageTitle("scheduling-system-prototype")
 @Theme(value = "scheduling-system", variant = Lumo.DARK)
 public class Application implements AppShellConfigurator {

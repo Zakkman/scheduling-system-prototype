@@ -2,8 +2,8 @@ package application.backend.appointment.models;
 
 public enum AppointmentStatus {
     PENDING,
-    CONFIRMED,
+    ACCEPTED,
     REJECTED,
-    RESOLVED,
+    CANCELED,
     UNRESOLVED
 }

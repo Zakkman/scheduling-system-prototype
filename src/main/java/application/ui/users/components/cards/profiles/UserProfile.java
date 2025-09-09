@@ -2,6 +2,7 @@ package application.ui.users.components.cards.profiles;
 
 import application.backend.users.models.SpecificUser;
 import application.backend.users.models.User;
+import application.ui.util.ColorGenerator;
 import com.vaadin.flow.component.Component;
 import com.vaadin.flow.component.avatar.Avatar;
 import com.vaadin.flow.component.card.Card;
@@ -13,11 +14,10 @@ import com.vaadin.flow.component.popover.Popover;
 import com.vaadin.flow.dom.Element;
 import lombok.Getter;
 
+@Getter
 public abstract class UserProfile<T extends SpecificUser<?>> extends Card {
 
-    @Getter
     protected final T specificUser;
-    @Getter
     private final User user;
 
     public UserProfile(T specificUser, User user) {
@@ -29,6 +29,10 @@ public abstract class UserProfile<T extends SpecificUser<?>> extends Card {
         setSubtitle(createSchoolUnit());
         setHeaderPrefix(createAvatar());
         setHeaderSuffix(createDetails());
+
+        String schoolUnitName = getSchoolUnitName();
+        String backgroundColor = ColorGenerator.generateColorFromName(schoolUnitName);
+        getElement().getStyle().set("background-color", backgroundColor);
     }
 
     private Component createName() {
@@ -42,9 +46,8 @@ public abstract class UserProfile<T extends SpecificUser<?>> extends Card {
 
     private Component createSchoolUnit() {
         String schoolUnitName = getSchoolUnitName();
-        Span schoolUnitSpan = new Span(schoolUnitName + " Department");
-        schoolUnitSpan.addClassName("teacher-profile-subtitle");
-        schoolUnitSpan.addClassName("truncate");
+        Span schoolUnitSpan = new Span(schoolUnitName);
+        schoolUnitSpan.addClassNames("profile-subtitle", "truncate");
 
         return schoolUnitSpan;
     }

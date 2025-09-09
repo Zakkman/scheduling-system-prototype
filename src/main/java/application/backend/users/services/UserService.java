@@ -31,4 +31,8 @@ public class UserService {
     public Optional<User> findByUser(User user) {
         return repo.findById(user.getId());
     }
+
+    public boolean isEmailTaken(String email) {
+        return repo.existsByEmail(email);
+    }
 }

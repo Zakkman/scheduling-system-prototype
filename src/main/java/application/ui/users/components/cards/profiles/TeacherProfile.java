@@ -16,7 +16,7 @@ public class TeacherProfile extends UserProfile<Teacher> {
 
     @Override
     String getSchoolUnitName() {
-        return specificUser.getDepartment().getName();
+        return specificUser.getDepartment().getName() + " Department";
     }
 
     @Override

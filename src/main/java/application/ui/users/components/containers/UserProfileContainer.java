@@ -1,5 +1,6 @@
-package application.ui.users.components.cards.profiles;
+package application.ui.users.components.containers;
 
+import application.ui.users.components.cards.profiles.UserProfile;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 
 import java.util.List;
@@ -29,9 +30,4 @@ public class UserProfileContainer extends VerticalLayout {
             .map(component -> (UserProfile<?>) component)
             .collect(Collectors.toList());
     }
-
-    public void clear() {
-        removeAll();
-    }
-
 }

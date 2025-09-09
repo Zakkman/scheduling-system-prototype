@@ -7,7 +7,7 @@ import application.backend.registration.services.RegisterService;
 import application.backend.registration.services.RegistrationSessionService;
 import application.ui.home.AbstractProtectedRegistrationView;
 import application.ui.layouts.HomeLayout;
-import application.ui.home.forms.VerifyForm;
+import application.ui.home.components.forms.VerifyForm;
 import com.vaadin.flow.component.Component;
 import com.vaadin.flow.component.UI;
 import com.vaadin.flow.component.button.Button;
@@ -34,6 +34,12 @@ public class VerifyRegistrationView extends AbstractProtectedRegistrationView {
 
     @Override
     protected void onEnter() {
+        if (registerService.isEmailTaken(registrationSessionService.getUser().getEmail())) {
+            Notification.show("This email is already registered. Please log in or use a different email.");
+            UI.getCurrent().navigate("login");
+            return;
+        }
+
         CODE = CodeGenerator.getCode();
 
         String toSend = registrationSessionService.getUser().getEmail();

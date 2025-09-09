@@ -3,7 +3,7 @@ package application.ui.home.views;
 import application.backend.registration.services.RegistrationSessionService;
 import application.ui.home.AbstractProtectedRegistrationView;
 import application.ui.layouts.HomeLayout;
-import application.ui.home.forms.SpecificUserForm;
+import application.ui.home.components.forms.SpecificUserForm;
 import com.vaadin.flow.component.Component;
 import com.vaadin.flow.component.UI;
 import com.vaadin.flow.component.button.Button;

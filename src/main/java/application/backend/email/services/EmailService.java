@@ -1,3 +1,4 @@
+
 package application.backend.email.services;
 
 import org.springframework.mail.SimpleMailMessage;

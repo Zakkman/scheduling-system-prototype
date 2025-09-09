@@ -1,0 +1,10 @@
+.scheduling-dialog, .manage-appointment-dialog {
+    box-shadow: 0 0 10px 5px rgba(0, 0, 0, 0.1);
+    border-radius: 10px;
+    padding: var(--lumo-space-s);
+    max-width: 800px;
+}
+
+.scheduling-dialog::part(content), .manage-appointment-dialog::part(content) {
+    padding: 0.2rem !important;
+}
