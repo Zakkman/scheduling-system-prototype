@@ -30,7 +30,7 @@ public class Teacher extends AbstractEntity implements SpecificUser<Teacher> {
     @NotNull
     private Department department;
 
-    @ManyToMany
+    @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(
         name = "teacher_subjects",
         joinColumns = @JoinColumn(name = "teacher_id"),
@@ -38,7 +38,7 @@ public class Teacher extends AbstractEntity implements SpecificUser<Teacher> {
     )
     private Set<Subject> subjectsHandled;
 
-    @ManyToMany
+    @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(
         name = "teacher_sections",
         joinColumns = @JoinColumn(name = "teacher_id"),

@@ -72,12 +72,12 @@ public class InitSchoolDataLoader implements CommandLineRunner {
     }
 
     private void loadTracks() {
-        trackRepo.save(new Track("Academic"));
-        trackRepo.save(new Track("Technical-Vocational-Livelihood (TVL)"));
+        trackRepo.save(new Track("Academic", null));
+        trackRepo.save(new Track("Technical-Vocational-Livelihood", "TVL"));
     }
 
     private void loadStrands() {
-        Track tvl = trackRepo.findByName("Technical-Vocational-Livelihood (TVL)").orElse(null);
+        Track tvl = trackRepo.findByName("Technical-Vocational-Livelihood").orElse(null);
         Track academic = trackRepo.findByName("Academic").orElse(null);
 
         if (tvl != null) {
