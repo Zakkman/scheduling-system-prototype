@@ -1,13 +1,16 @@
 package application.ui.layouts;
 
+import application.ui.users.views.student.StudentSchedulingView;
 import com.vaadin.flow.component.Component;
 import com.vaadin.flow.component.applayout.AppLayout;
 import com.vaadin.flow.component.applayout.DrawerToggle;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.html.H4;
+import com.vaadin.flow.component.icon.VaadinIcon;
 import com.vaadin.flow.component.orderedlayout.FlexComponent;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
+import com.vaadin.flow.router.RouterLink;
 import com.vaadin.flow.spring.security.AuthenticationContext;
 import jakarta.annotation.security.RolesAllowed;
 
@@ -16,11 +19,16 @@ public abstract class UserLayout extends AppLayout {
 
     private final AuthenticationContext authenticationContext;
 
-    public UserLayout(AuthenticationContext authenticationContext) {
+    public UserLayout(AuthenticationContext authenticationContext,
+                      RouterLink appointmentsLink,
+                      RouterLink schedulingLink) {
         this.authenticationContext = authenticationContext;
+
         setPrimarySection(Section.DRAWER);
         addToNavbar(createHeader());
-        addToDrawer(createDrawer());
+
+        Component[] navigationButtons = createNavigationButtons(appointmentsLink, schedulingLink);
+        addToDrawer(createDrawer(navigationButtons));
     }
 
     private Component createHeader() {
@@ -43,8 +51,9 @@ public abstract class UserLayout extends AppLayout {
         return header;
     }
 
-    private Component createDrawer() {
+    private Component createDrawer(Component[] navigationButtons) {
         VerticalLayout layout = new VerticalLayout();
+        layout.addClassName("user-layout-button-layout");
         layout.setSizeFull();
         layout.getThemeList().set("dark", true);
         layout.setPadding(true);
@@ -52,12 +61,26 @@ public abstract class UserLayout extends AppLayout {
         layout.setAlignItems(FlexComponent.Alignment.STRETCH);
 
         // Add the navigation buttons provided by the subclass
-        for (Component navItem : createNavigationButtons()) {
+        for (Component navItem : navigationButtons) {
             layout.add(navItem);
         }
 
         return layout;
     }
 
-    protected abstract Component[] createNavigationButtons();
+    private Component[] createNavigationButtons(RouterLink appointmentsLink, RouterLink schedulingLink) {
+        Button appointmentsButton = new Button("Appointments", VaadinIcon.CALENDAR.create());
+        appointmentsButton.addClassName("user-layout-appointments-button");
+        appointmentsButton.setWidthFull();
+        appointmentsButton.setHeight("150px");
+        appointmentsLink.add(appointmentsButton);
+
+        Button addAppointmentsButton = new Button("Add Appointments", VaadinIcon.PLUS_CIRCLE.create());
+        addAppointmentsButton.addClassName("user-layout-add-appointments-button");
+        addAppointmentsButton.setWidthFull();
+        addAppointmentsButton.setHeight("150px");
+        schedulingLink.add(addAppointmentsButton);
+
+        return new Component[] { appointmentsLink, schedulingLink };
+    }
 }

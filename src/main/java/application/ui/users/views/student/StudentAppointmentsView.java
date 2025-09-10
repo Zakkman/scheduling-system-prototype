@@ -15,7 +15,6 @@ import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
 import jakarta.annotation.security.RolesAllowed;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.beans.factory.annotation.Autowired;
 
 @Route(value = "student/appointments", layout = StudentLayout.class)
 @RolesAllowed("STUDENT")
@@ -24,7 +23,6 @@ public class StudentAppointmentsView extends VerticalLayout implements BeforeEnt
 
     private final AppointmentCardGrid appointmentCardGrid;
 
-    @Autowired
     public StudentAppointmentsView(AppointmentService appointmentService,
                                    TeacherService teacherService,
                                    StudentService studentService) {

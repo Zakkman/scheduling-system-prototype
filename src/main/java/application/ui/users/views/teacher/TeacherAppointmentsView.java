@@ -15,7 +15,6 @@ import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
 import jakarta.annotation.security.RolesAllowed;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.beans.factory.annotation.Autowired;
 
 @Route(value = "teacher/appointments", layout = TeacherLayout.class)
 @RolesAllowed("TEACHER")
@@ -27,8 +26,8 @@ public class TeacherAppointmentsView extends VerticalLayout implements BeforeEnt
     public TeacherAppointmentsView(AppointmentService appointmentService,
                                    TeacherService teacherService,
                                    StudentService studentService) {
-        // The view now passes the services directly to the grid
         this.appointmentCardGrid = new AppointmentCardGrid(teacherService, studentService, appointmentService);
+
         configureLayout();
     }
 
@@ -38,7 +37,6 @@ public class TeacherAppointmentsView extends VerticalLayout implements BeforeEnt
 
         if (principal instanceof CustomUserDetails) {
             User currentUser = ((CustomUserDetails) principal).getUser();
-            // The view only needs to set the user, the grid handles the data retrieval
             this.appointmentCardGrid.setAuthenticatedUser(currentUser);
         } else {
             event.rerouteTo("login");

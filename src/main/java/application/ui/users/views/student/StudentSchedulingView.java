@@ -26,7 +26,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 @Route(value = "student/add/appointments", layout = StudentLayout.class)
 @RolesAllowed("STUDENT")
 @PageTitle("Schedule Appointments")
-public class StudentAddAppointmentsView extends VerticalLayout implements BeforeEnterObserver {
+public class StudentSchedulingView extends VerticalLayout implements BeforeEnterObserver {
 
     private final AppointmentService appointmentService;
     private final UserService userService;
@@ -35,9 +35,9 @@ public class StudentAddAppointmentsView extends VerticalLayout implements Before
     private SchedulingDialog schedulingDialog;
     private User appointer;
 
-    public StudentAddAppointmentsView(UserService userService,
-                                      AppointmentService appointmentService,
-                                      TeacherService teacherService) {
+    public StudentSchedulingView(UserService userService,
+                                 AppointmentService appointmentService,
+                                 TeacherService teacherService) {
         this.userService = userService;
         this.appointmentService = appointmentService;
 
@@ -93,7 +93,6 @@ public class StudentAddAppointmentsView extends VerticalLayout implements Before
         try {
             Appointment appointment = event.getAppointmentOrThrow();
 
-            // Re-fetch managed entities from the database before saving
             User managedAppointer = userService.findByUser(appointment.getAppointer()).orElse(null);
             User managedAppointee = userService.findByUser(appointment.getAppointee()).orElse(null);
 

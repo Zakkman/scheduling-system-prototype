@@ -1,16 +1,14 @@
 package application.ui.users.components.grids;
 
 import application.backend.appointment.models.Appointment;
-import application.backend.appointment.services.AppointmentService;
 import application.backend.common.enums.Role;
 import application.backend.users.models.Student;
 import application.backend.users.models.Teacher;
 import application.backend.users.models.User;
 import application.backend.users.services.StudentService;
 import application.backend.users.services.TeacherService;
+import application.backend.appointment.services.AppointmentService;
 import application.ui.users.components.cards.AppointmentCard;
-import application.ui.users.components.cards.StudentAppointmentCard;
-import application.ui.users.components.cards.TeacherAppointmentCard;
 import application.ui.users.components.cards.profiles.StudentProfile;
 import application.ui.users.components.cards.profiles.TeacherProfile;
 import application.ui.users.components.cards.profiles.UserProfile;
@@ -119,14 +117,12 @@ public class AppointmentCardGrid extends VerticalLayout {
                 return matchesRole;
             })
             .sorted((a1, a2) -> {
-                // Combine date and startTime to create a comparable LocalDateTime
-                // to correctly sort appointments chronologically.
                 if ("Ascending".equals(dateSort)) {
                     return a1.getDate().atTime(a1.getStartTime()).compareTo(a2.getDate().atTime(a2.getStartTime()));
                 } else if ("Descending".equals(dateSort)) {
                     return a2.getDate().atTime(a2.getStartTime()).compareTo(a1.getDate().atTime(a1.getStartTime()));
                 } else {
-                    return 0; // No sorting
+                    return 0;
                 }
             })
             .collect(Collectors.toList());
@@ -141,12 +137,8 @@ public class AppointmentCardGrid extends VerticalLayout {
             return null;
         }
 
-        return
-            switch (currentUser.getRole()) {
-                case STUDENT -> new StudentAppointmentCard(appointment, currentUser, (TeacherProfile) userProfile);
-                case TEACHER -> new TeacherAppointmentCard(appointment, currentUser, userProfile);
-                default -> null;
-            };
+        // Changed to use the single AppointmentCard class
+        return new AppointmentCard(appointment, currentUser, userProfile);
     }
 
     private UserProfile<?> createUserProfile(Appointment appointment) {
@@ -155,7 +147,7 @@ public class AppointmentCardGrid extends VerticalLayout {
                 if (user.equals(appointment.getAppointer())) {
                     return Optional.ofNullable(appointment.getAppointee());
                 } else {
-                    return Optional.ofNullable(appointment.getAppointer());
+                    return Optional.ofNullable(appointment.getAppointee());
                 }
             });
 

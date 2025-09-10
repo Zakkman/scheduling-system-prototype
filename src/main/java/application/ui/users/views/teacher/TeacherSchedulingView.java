@@ -30,28 +30,23 @@ import org.springframework.security.core.context.SecurityContextHolder;
 @Route(value = "teacher/add/appointments", layout = TeacherLayout.class)
 @RolesAllowed("TEACHER")
 @PageTitle("Schedule Appointments")
-public class TeacherAddAppointmentsView extends VerticalLayout implements BeforeEnterObserver {
+public class TeacherSchedulingView extends VerticalLayout implements BeforeEnterObserver {
 
     private final AppointmentService appointmentService;
     private final UserService userService;
-    private final TeacherService teacherService;
-    private final StudentService studentService;
 
     private ProfileGrid<Teacher> teacherProfileGrid;
     private ProfileGrid<Student> studentProfileGrid;
     private SchedulingDialog schedulingDialog;
     private User appointer;
 
-    public TeacherAddAppointmentsView(UserService userService,
-                                      AppointmentService appointmentService,
-                                      TeacherService teacherService,
-                                      StudentService studentService) {
+    public TeacherSchedulingView(UserService userService,
+                                 AppointmentService appointmentService,
+                                 TeacherService teacherService,
+                                 StudentService studentService) {
         this.userService = userService;
         this.appointmentService = appointmentService;
-        this.teacherService = teacherService;
-        this.studentService = studentService;
 
-        // Initialize both grids
         this.teacherProfileGrid = new ProfileGrid<>(
             "Teachers: ",
             Teacher.class,
@@ -65,10 +60,8 @@ public class TeacherAddAppointmentsView extends VerticalLayout implements Before
             studentService::search
         );
 
-        // Configure the grid that will be selected
         configureGridSelect();
 
-        // Create the layout for the two grids
         VerticalLayout gridsLayout = new VerticalLayout(teacherProfileGrid, studentProfileGrid);
         gridsLayout.setSizeFull();
         gridsLayout.setFlexGrow(1, teacherProfileGrid, studentProfileGrid);
@@ -87,9 +80,6 @@ public class TeacherAddAppointmentsView extends VerticalLayout implements Before
 
         if (principal instanceof CustomUserDetails) {
             this.appointer = ((CustomUserDetails) principal).getUser();
-
-            // Teachers can schedule appointments for approval or directly as confirmed
-            // For this example, let's use CONFIRMED as the default status
             this.schedulingDialog = new SchedulingDialog(appointer, AppointmentStatus.CONFIRMED);
 
             configureScheduleDialog();
@@ -106,7 +96,6 @@ public class TeacherAddAppointmentsView extends VerticalLayout implements Before
     }
 
     private void configureGridSelect() {
-        // Teachers can schedule with either other teachers or students
         teacherProfileGrid.getGrid().asSingleSelect().addValueChangeListener(event -> {
             if (event.getValue() != null) {
                 clearOtherGridSelection(studentProfileGrid.getGrid());
@@ -136,7 +125,6 @@ public class TeacherAddAppointmentsView extends VerticalLayout implements Before
         try {
             Appointment appointment = event.getAppointmentOrThrow();
 
-            // Re-fetch managed entities from the database before saving
             User managedAppointer = userService.findByUser(appointment.getAppointer()).orElse(null);
             User managedAppointee = userService.findByUser(appointment.getAppointee()).orElse(null);
 

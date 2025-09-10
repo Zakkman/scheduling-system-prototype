@@ -5,3 +5,34 @@
 .user-layout-header {
     padding-left: var(--lumo-space-m);
 }
+
+.home-layout-drawer-layout .home-layout-home-button {
+
+}
+
+.home-layout-drawer-layout .home-layout-login-button {
+
+}
+
+.home-layout-drawer-layout .home-layout-register-button {
+
+}
+
+.home-layout-drawer-layout .home-layout-home-button,
+.home-layout-drawer-layout .home-layout-login-button,
+.home-layout-drawer-layout .home-layout-register-button {
+    transition: background-color 0.2s, box-shadow 0.2s;
+}
+
+.home-layout-drawer-layout .home-layout-home-button:hover,
+.home-layout-drawer-layout .home-layout-login-button:hover,
+.home-layout-drawer-layout .home-layout-register-button:hover {
+    background-color: var(--lumo-primary-color-70pct);
+    cursor: pointer;
+}
+
+.home-layout-drawer-layout .home-layout-home-button:active,
+.home-layout-drawer-layout .home-layout-login-button:active,
+.home-layout-drawer-layout .home-layout-register-button:active {
+    background-color: var(--lumo-primary-color-90pct);
+}
