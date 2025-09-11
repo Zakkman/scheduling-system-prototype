@@ -18,13 +18,15 @@ import java.time.format.TextStyle;
 import java.util.Locale;
 import java.util.Optional;
 
+@Getter
 public class AppointmentCard extends Card {
 
-    @Getter
-    protected final Appointment appointment;
+    private final Appointment appointment;
+    private final UserProfile<?> userProfile;
 
     public AppointmentCard(Appointment appointment, User currentUser, UserProfile<?> userProfile) {
         this.appointment = appointment;
+        this.userProfile = userProfile;
         addClassName("appointment-card");
 
         setBackgroundByStatus();
@@ -32,7 +34,7 @@ public class AppointmentCard extends Card {
         setTitle(createTitle(currentUser));
         setSubtitle(createSubtitle());
         setHeaderSuffix(createBadge());
-        add(createProfile(userProfile));
+        add(createBody(userProfile));
     }
 
     private Component createTitle(User currentUser) {
@@ -120,41 +122,46 @@ public class AppointmentCard extends Card {
         return badge;
     }
 
-    private String capitalizeFirstLetter(String text) {
-        if (text == null || text.isEmpty()) {
-            return text;
-        }
-        return text.substring(0, 1).toUpperCase(Locale.ROOT) + text.substring(1).toLowerCase(Locale.ROOT);
-    }
+//    private String capitalizeFirstLetter(String text) {
+//        if (text == null || text.isEmpty()) {
+//            return text;
+//        }
+//        return text.substring(0, 1).toUpperCase(Locale.ROOT) + text.substring(1).toLowerCase(Locale.ROOT);
+//    }
 
-    private Component createProfile(UserProfile<?> userProfile) {
+    //TODO: fix those body details stuff
+
+    private Component createBody(UserProfile<?> userProfile) {
         VerticalLayout bodyLayout = new VerticalLayout();
         bodyLayout.setPadding(false);
         bodyLayout.addClassName("appointment-card-body");
 
         User appointer = appointment.getAppointer();
-        String appointerName = appointer.getFirstName() + appointer.getLastName();
+        String appointerName = appointer.getFirstName() + " " + appointer.getLastName();
         Div appointedByDiv = new Div("Appointed by: "  + appointerName);
+        appointedByDiv.addClassName("appointment-card-appointed-by");
 
         String place = Optional.ofNullable(appointment)
             .map(Appointment::getPlace)
             .orElse("No place provided.");
         Div placeDiv = new Div("Place: " + place);
+        placeDiv.addClassName("appointment-card-place");
 
         String description = Optional.ofNullable(appointment)
             .map(Appointment::getDescription)
             .orElse("No description provided.");
         Div descriptionDiv = new Div("Description: " + description);
+        descriptionDiv.addClassName("appointment-card-description");
 
         if (userProfile != null) {
             bodyLayout.add(userProfile);
+            userProfile.setWidthFull();
         } else {
             bodyLayout.add(new Div("User profile not available."));
         }
 
-        userProfile.setWidthFull();
+        bodyLayout.add(appointedByDiv, descriptionDiv, placeDiv);
 
-        bodyLayout.add(descriptionDiv, placeDiv);
         return bodyLayout;
     }
 }

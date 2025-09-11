@@ -6,7 +6,6 @@ import application.ui.util.ColorGenerator;
 import com.vaadin.flow.component.Component;
 import com.vaadin.flow.component.avatar.Avatar;
 import com.vaadin.flow.component.card.Card;
-import com.vaadin.flow.component.card.CardVariant;
 import com.vaadin.flow.component.html.Div;
 import com.vaadin.flow.component.html.Span;
 import com.vaadin.flow.component.icon.Icon;
@@ -15,11 +14,10 @@ import com.vaadin.flow.component.popover.Popover;
 import com.vaadin.flow.dom.Element;
 import lombok.Getter;
 
+@Getter
 public abstract class UserProfile<T extends SpecificUser<?>> extends Card {
 
-    @Getter
     protected final T specificUser;
-    @Getter
     private final User user;
 
     public UserProfile(T specificUser, User user) {
@@ -49,8 +47,7 @@ public abstract class UserProfile<T extends SpecificUser<?>> extends Card {
     private Component createSchoolUnit() {
         String schoolUnitName = getSchoolUnitName();
         Span schoolUnitSpan = new Span(schoolUnitName);
-        schoolUnitSpan.addClassName("teacher-profile-subtitle");
-        schoolUnitSpan.addClassName("truncate");
+        schoolUnitSpan.addClassNames("profile-subtitle", "truncate");
 
         return schoolUnitSpan;
     }

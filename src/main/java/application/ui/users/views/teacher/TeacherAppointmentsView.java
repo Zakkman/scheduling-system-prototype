@@ -1,53 +1,56 @@
 package application.ui.users.views.teacher;
 
+import application.backend.appointment.models.Appointment;
+import application.backend.appointment.models.AppointmentStatus;
 import application.backend.appointment.services.AppointmentService;
-import application.backend.security.CustomUserDetails;
-import application.backend.users.models.User;
 import application.backend.users.services.StudentService;
 import application.backend.users.services.TeacherService;
 import application.ui.layouts.TeacherLayout;
-import application.ui.users.components.grids.AppointmentCardGrid;
-import com.vaadin.flow.component.notification.Notification;
-import com.vaadin.flow.component.orderedlayout.VerticalLayout;
-import com.vaadin.flow.router.BeforeEnterEvent;
-import com.vaadin.flow.router.BeforeEnterObserver;
+import application.ui.users.views.AppointmentsView;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
 import jakarta.annotation.security.RolesAllowed;
-import org.springframework.security.core.context.SecurityContextHolder;
 
 @Route(value = "teacher/appointments", layout = TeacherLayout.class)
 @RolesAllowed("TEACHER")
 @PageTitle("My Appointments")
-public class TeacherAppointmentsView extends VerticalLayout implements BeforeEnterObserver {
-
-    private final AppointmentCardGrid appointmentCardGrid;
+public class TeacherAppointmentsView extends AppointmentsView {
 
     public TeacherAppointmentsView(AppointmentService appointmentService,
                                    TeacherService teacherService,
                                    StudentService studentService) {
-        this.appointmentCardGrid = new AppointmentCardGrid(teacherService, studentService, appointmentService);
-
-        configureLayout();
+        super(appointmentService, teacherService, studentService);
     }
 
     @Override
-    public void beforeEnter(BeforeEnterEvent event) {
-        Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+    protected void configureAvailableButtons(Appointment appointment) {
+        manageAppointmentDialog.getForm().clear();
+        manageAppointmentDialog.getForm().addAcceptButton();
+        manageAppointmentDialog.getForm().addRejectButton();
+        manageAppointmentDialog.getForm().addRescheduleButton();
+        manageAppointmentDialog.getForm().addCancelButton();
 
-        if (principal instanceof CustomUserDetails) {
-            User currentUser = ((CustomUserDetails) principal).getUser();
-            this.appointmentCardGrid.setAuthenticatedUser(currentUser);
-        } else {
-            event.rerouteTo("login");
-            Notification.show("Your session has expired. Please log in again.");
+        boolean isAppointer = appointment.getAppointer().equals(currentUser);
+        boolean isPending = appointment.getStatus().equals(AppointmentStatus.PENDING);
+        boolean isConfirmed = appointment.getStatus().equals(AppointmentStatus.CONFIRMED);
+
+        manageAppointmentDialog.getForm().getAcceptButton().setEnabled(false);
+        manageAppointmentDialog.getForm().getRejectButton().setEnabled(false);
+        manageAppointmentDialog.getForm().getRescheduleButton().setEnabled(false);
+        manageAppointmentDialog.getForm().getCancelButton().setEnabled(false);
+
+        if ((isAppointer && isPending) || (isAppointer && isConfirmed) || (!isAppointer && isConfirmed)) {
+            manageAppointmentDialog.getForm().getRescheduleButton().setEnabled(true);
+            manageAppointmentDialog.getForm().getCancelButton().setEnabled(true);
+        } else if (!isAppointer && isPending) {
+            manageAppointmentDialog.getForm().getAcceptButton().setEnabled(true);
+            manageAppointmentDialog.getForm().getRejectButton().setEnabled(true);
+            manageAppointmentDialog.getForm().getRescheduleButton().setEnabled(true);
         }
     }
 
-    private void configureLayout() {
-        add(appointmentCardGrid);
-        setSizeFull();
-        setAlignItems(Alignment.CENTER);
-        setFlexGrow(1, appointmentCardGrid);
+    @Override
+    protected void configureManageAppointmentDialog() {
+
     }
 }

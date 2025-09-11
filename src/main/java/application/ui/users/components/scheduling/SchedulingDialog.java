@@ -10,12 +10,11 @@ public class SchedulingDialog extends Dialog {
 
     private final SchedulingForm form;
 
-    public SchedulingDialog(User appointer,
-                            AppointmentStatus DEFAULT_STATUS) {
+    public SchedulingDialog(User currentUser) {
         addClassName("scheduling-dialog");
         setSizeFull();
 
-        this.form = new SchedulingForm(appointer, DEFAULT_STATUS);
+        this.form = new SchedulingForm(currentUser);
 
         add(form);
     }

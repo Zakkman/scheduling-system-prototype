@@ -1,7 +1,6 @@
 package application.backend.appointment.models;
 
 import application.backend.common.AbstractEntity;
-import application.backend.users.models.SpecificUser;
 import application.backend.users.models.User;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;

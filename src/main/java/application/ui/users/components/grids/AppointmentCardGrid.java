@@ -21,6 +21,7 @@ import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.select.Select;
 import lombok.Getter;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -48,13 +49,15 @@ public class AppointmentCardGrid extends VerticalLayout {
 
         this.grid = new Grid<>(Appointment.class, false);
 
-        addClassName("appointment-card-grid");
+        addClassName("appointment-card-grid-layout");
 
         configureFilters();
         configureGrid();
 
         add(createToolBar(), grid);
         setFlexGrow(1, grid);
+
+        updateGrid();
     }
 
     private void configureGrid() {
@@ -137,11 +140,10 @@ public class AppointmentCardGrid extends VerticalLayout {
             return null;
         }
 
-        // Changed to use the single AppointmentCard class
         return new AppointmentCard(appointment, currentUser, userProfile);
     }
 
-    private UserProfile<?> createUserProfile(Appointment appointment) {
+    public UserProfile<?> createUserProfile(Appointment appointment) {
         Optional<User> otherUserOptional = Optional.ofNullable(currentUser)
             .flatMap(user -> {
                 if (user.equals(appointment.getAppointer())) {

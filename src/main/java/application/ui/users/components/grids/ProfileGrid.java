@@ -38,7 +38,7 @@ public class ProfileGrid<T extends SpecificUser<?>> extends VerticalLayout {
         this.cardFactory = cardFactory;
         this.searchFunction = searchFunction;
 
-        addClassName("profile-grid");
+        addClassName("profile-grid-layout");
 
         configureGrid(header);
         configureSearchFields();
@@ -50,7 +50,7 @@ public class ProfileGrid<T extends SpecificUser<?>> extends VerticalLayout {
     }
 
     private void configureGrid(String header) {
-        grid.addClassName("no-padding-cell");
+        grid.addClassName("profile-grid");
         grid.addThemeVariants(GridVariant.LUMO_ROW_STRIPES);
         grid.setColumns();
         grid.addComponentColumn(this.cardFactory::apply)

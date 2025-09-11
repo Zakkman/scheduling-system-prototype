@@ -1,4 +1,4 @@
-package application.ui.home.forms;
+package application.ui.home.components.forms;
 
 import application.backend.school.models.Track;
 import application.backend.school.models.Strand;

@@ -1,4 +1,4 @@
-package application.ui.home.forms;
+package application.ui.home.components.forms;
 
 import application.backend.common.enums.Role;
 import application.backend.common.enums.Status;

@@ -1,51 +1,36 @@
 package application.ui.users.views.teacher;
 
-import application.backend.appointment.models.Appointment;
-import application.backend.appointment.models.AppointmentStatus;
 import application.backend.appointment.services.AppointmentService;
-import application.backend.security.CustomUserDetails;
 import application.backend.users.models.Student;
 import application.backend.users.models.Teacher;
-import application.backend.users.models.User;
 import application.backend.users.services.StudentService;
 import application.backend.users.services.TeacherService;
 import application.backend.users.services.UserService;
 import application.ui.layouts.TeacherLayout;
 import application.ui.users.components.grids.ProfileGrid;
-import application.ui.users.components.scheduling.SchedulingDialog;
 import application.ui.users.components.scheduling.SchedulingForm;
 import application.ui.users.components.cards.profiles.StudentProfile;
 import application.ui.users.components.cards.profiles.TeacherProfile;
+import application.ui.users.views.SchedulingView;
 import com.vaadin.flow.component.grid.Grid;
-import com.vaadin.flow.component.notification.Notification;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
-import com.vaadin.flow.data.binder.ValidationException;
-import com.vaadin.flow.router.BeforeEnterEvent;
-import com.vaadin.flow.router.BeforeEnterObserver;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
 import jakarta.annotation.security.RolesAllowed;
-import org.springframework.security.core.context.SecurityContextHolder;
 
 @Route(value = "teacher/add/appointments", layout = TeacherLayout.class)
 @RolesAllowed("TEACHER")
 @PageTitle("Schedule Appointments")
-public class TeacherSchedulingView extends VerticalLayout implements BeforeEnterObserver {
+public class TeacherSchedulingView extends SchedulingView {
 
-    private final AppointmentService appointmentService;
-    private final UserService userService;
+    private final ProfileGrid<Teacher> teacherProfileGrid;
+    private final ProfileGrid<Student> studentProfileGrid;
 
-    private ProfileGrid<Teacher> teacherProfileGrid;
-    private ProfileGrid<Student> studentProfileGrid;
-    private SchedulingDialog schedulingDialog;
-    private User appointer;
-
-    public TeacherSchedulingView(UserService userService,
-                                 AppointmentService appointmentService,
+    public TeacherSchedulingView(AppointmentService appointmentService,
+                                 UserService userService,
                                  TeacherService teacherService,
                                  StudentService studentService) {
-        this.userService = userService;
-        this.appointmentService = appointmentService;
+        super(appointmentService, userService);
 
         this.teacherProfileGrid = new ProfileGrid<>(
             "Teachers: ",
@@ -60,42 +45,18 @@ public class TeacherSchedulingView extends VerticalLayout implements BeforeEnter
             studentService::search
         );
 
-        configureGridSelect();
-
         VerticalLayout gridsLayout = new VerticalLayout(teacherProfileGrid, studentProfileGrid);
         gridsLayout.setSizeFull();
         gridsLayout.setFlexGrow(1, teacherProfileGrid, studentProfileGrid);
 
         add(gridsLayout);
         gridsLayout.setAlignItems(Alignment.CENTER);
-        setAlignItems(Alignment.CENTER);
         setFlexGrow(1, gridsLayout);
-        setSizeFull();
         setPadding(false);
     }
 
     @Override
-    public void beforeEnter(BeforeEnterEvent event) {
-        Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-
-        if (principal instanceof CustomUserDetails) {
-            this.appointer = ((CustomUserDetails) principal).getUser();
-            this.schedulingDialog = new SchedulingDialog(appointer, AppointmentStatus.CONFIRMED);
-
-            configureScheduleDialog();
-        } else {
-            event.rerouteTo("login");
-            Notification.show("Your session has expired. Please log in again.");
-        }
-    }
-
-    private void configureScheduleDialog() {
-        schedulingDialog.getForm().addListener(SchedulingForm.AppointEvent.class, this::handleAppointEvent);
-        schedulingDialog.addDialogCloseActionListener(click -> handleDialogClose(null));
-        schedulingDialog.getForm().addListener(SchedulingForm.CancelEvent.class, this::handleDialogClose);
-    }
-
-    private void configureGridSelect() {
+    protected void configureGridSelect() {
         teacherProfileGrid.getGrid().asSingleSelect().addValueChangeListener(event -> {
             if (event.getValue() != null) {
                 clearOtherGridSelection(studentProfileGrid.getGrid());
@@ -121,29 +82,8 @@ public class TeacherSchedulingView extends VerticalLayout implements BeforeEnter
         gridToClear.asSingleSelect().clear();
     }
 
-    private void handleAppointEvent(SchedulingForm.AppointEvent event) {
-        try {
-            Appointment appointment = event.getAppointmentOrThrow();
-
-            User managedAppointer = userService.findByUser(appointment.getAppointer()).orElse(null);
-            User managedAppointee = userService.findByUser(appointment.getAppointee()).orElse(null);
-
-            if (managedAppointer != null && managedAppointee != null) {
-                appointment.setAppointer(managedAppointer);
-                appointment.setAppointee(managedAppointee);
-                appointmentService.saveAppointment(appointment);
-                Notification.show("Appointment scheduled successfully!");
-                handleDialogClose(null);
-            } else {
-                Notification.show("Error: One of the users could not be found.");
-            }
-
-        } catch (ValidationException e) {
-            Notification.show("Please check the form for errors.");
-        }
-    }
-
-    private void handleDialogClose(SchedulingForm.CancelEvent event) {
+    @Override
+    protected void handleDialogClose(SchedulingForm.CancelEvent event) {
         teacherProfileGrid.getGrid().asSingleSelect().clear();
         studentProfileGrid.getGrid().asSingleSelect().clear();
         if (schedulingDialog != null) {

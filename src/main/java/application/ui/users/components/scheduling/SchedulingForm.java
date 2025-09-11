@@ -2,6 +2,7 @@ package application.ui.users.components.scheduling;
 
 import application.backend.appointment.models.Appointment;
 import application.backend.appointment.models.AppointmentStatus;
+import application.backend.common.enums.Role;
 import application.backend.users.models.User;
 import application.ui.users.components.cards.profiles.UserProfileContainer;
 import application.ui.users.components.cards.profiles.UserProfile;
@@ -19,6 +20,7 @@ import com.vaadin.flow.data.binder.BeanValidationBinder;
 import com.vaadin.flow.data.binder.Binder;
 import com.vaadin.flow.data.binder.ValidationException;
 import com.vaadin.flow.shared.Registration;
+import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
 
 import java.time.LocalDate;
@@ -29,9 +31,7 @@ public class SchedulingForm extends VerticalLayout {
 
     Binder<Appointment> binder = new BeanValidationBinder<>(Appointment.class);
 
-    private final User appointer;
-    private final AppointmentStatus DEFAULT_STATUS;
-
+    private final User currentUser;
     private final UserProfileContainer selectedUserProfileContainer;
 
     TextArea place = new TextArea("Place");
@@ -45,12 +45,8 @@ public class SchedulingForm extends VerticalLayout {
     @Getter
     Button cancelButton = new Button("Cancel");
 
-    //TODO: maybe refactor or organize this or smth cus this is a mess
-
-    public SchedulingForm(User appointer,
-                          AppointmentStatus DEFAULT_STATUS) {
-        this.appointer = appointer;
-        this.DEFAULT_STATUS = DEFAULT_STATUS;
+    public SchedulingForm(User currentUser) {
+        this.currentUser = currentUser;
         this.selectedUserProfileContainer = new UserProfileContainer();
 
         binder.bindInstanceFields(this);
@@ -137,7 +133,7 @@ public class SchedulingForm extends VerticalLayout {
     }
 
     public void clearProfileAndFields() {
-        selectedUserProfileContainer.clear();
+        selectedUserProfileContainer.removeAll();
         clearFields();
     }
 
@@ -163,10 +159,24 @@ public class SchedulingForm extends VerticalLayout {
 
         User appointee = profile.get().getUser();
 
-        appointment.setAppointer(appointer);
+        appointment.setAppointer(currentUser);
         appointment.setAppointee(appointee);
-        appointment.setStatus(DEFAULT_STATUS);
+
+        AppointmentStatus appointmentStatus = getStatusBasedOnRoles(appointee);
+        appointment.setStatus(appointmentStatus);
+
         return Optional.of(appointment);
+    }
+
+    private AppointmentStatus getStatusBasedOnRoles(User appointee) {
+        boolean isStudent = currentUser.getRole().equals(Role.STUDENT);
+        boolean isTeacher = currentUser.getRole().equals(Role.TEACHER);
+
+        if (isStudent || isTeacher && appointee.getRole().equals(Role.TEACHER)) {
+            return AppointmentStatus.PENDING;
+        } else {
+            return AppointmentStatus.CONFIRMED;
+        }
     }
 
     public static class AppointEvent extends ComponentEvent<SchedulingForm> {
@@ -174,7 +184,7 @@ public class SchedulingForm extends VerticalLayout {
         private final Appointment appointment;
         private final ValidationException validationException;
 
-        public AppointEvent(SchedulingForm source, Appointment appointment) {
+        protected AppointEvent(SchedulingForm source, Appointment appointment) {
             super(source, false);
             this.appointment = appointment;
             this.validationException = null;
@@ -195,8 +205,7 @@ public class SchedulingForm extends VerticalLayout {
     }
 
     public static class CancelEvent extends ComponentEvent<SchedulingForm> {
-
-        public CancelEvent(SchedulingForm source) {
+        CancelEvent(SchedulingForm source) {
             super(source, false);
         }
     }
@@ -205,5 +214,4 @@ public class SchedulingForm extends VerticalLayout {
                                                                 ComponentEventListener<T> listener) {
         return getEventBus().addListener(eventType, listener);
     }
-
 }

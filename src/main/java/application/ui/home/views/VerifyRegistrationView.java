@@ -7,7 +7,7 @@ import application.backend.registration.services.RegisterService;
 import application.backend.registration.services.RegistrationSessionService;
 import application.ui.home.AbstractProtectedRegistrationView;
 import application.ui.layouts.HomeLayout;
-import application.ui.home.forms.VerifyForm;
+import application.ui.home.components.forms.VerifyForm;
 import com.vaadin.flow.component.Component;
 import com.vaadin.flow.component.UI;
 import com.vaadin.flow.component.button.Button;

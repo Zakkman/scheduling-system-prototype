@@ -1,4 +1,4 @@
-package application.ui.home.forms;
+package application.ui.home.components.forms;
 
 import application.backend.users.models.SpecificUser;
 import com.vaadin.flow.component.formlayout.FormLayout;

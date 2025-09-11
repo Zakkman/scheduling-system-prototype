@@ -1,6 +1,5 @@
 package application.ui.layouts;
 
-import application.ui.users.views.student.StudentSchedulingView;
 import com.vaadin.flow.component.Component;
 import com.vaadin.flow.component.applayout.AppLayout;
 import com.vaadin.flow.component.applayout.DrawerToggle;
@@ -60,7 +59,6 @@ public abstract class UserLayout extends AppLayout {
         layout.setSpacing(true);
         layout.setAlignItems(FlexComponent.Alignment.STRETCH);
 
-        // Add the navigation buttons provided by the subclass
         for (Component navItem : navigationButtons) {
             layout.add(navItem);
         }
@@ -75,7 +73,7 @@ public abstract class UserLayout extends AppLayout {
         appointmentsButton.setHeight("150px");
         appointmentsLink.add(appointmentsButton);
 
-        Button addAppointmentsButton = new Button("Add Appointments", VaadinIcon.PLUS_CIRCLE.create());
+        Button addAppointmentsButton = new Button("Schedule Appointment", VaadinIcon.PLUS_CIRCLE.create());
         addAppointmentsButton.addClassName("user-layout-add-appointments-button");
         addAppointmentsButton.setWidthFull();
         addAppointmentsButton.setHeight("150px");

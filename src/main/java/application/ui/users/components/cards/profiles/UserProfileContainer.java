@@ -29,9 +29,4 @@ public class UserProfileContainer extends VerticalLayout {
             .map(component -> (UserProfile<?>) component)
             .collect(Collectors.toList());
     }
-
-    public void clear() {
-        removeAll();
-    }
-
 }

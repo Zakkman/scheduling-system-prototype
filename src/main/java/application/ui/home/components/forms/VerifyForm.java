@@ -1,4 +1,4 @@
-package application.ui.home.forms;
+package application.ui.home.components.forms;
 
 import com.vaadin.flow.component.Text;
 import com.vaadin.flow.component.formlayout.FormLayout;
