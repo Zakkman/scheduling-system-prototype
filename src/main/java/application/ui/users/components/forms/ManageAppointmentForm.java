@@ -1,9 +1,8 @@
-package application.ui.users.components.scheduling;
+package application.ui.users.components.forms;
 
 import application.backend.appointment.models.Appointment;
-import application.backend.users.models.User;
 import application.ui.users.components.cards.AppointmentCard;
-import application.ui.users.components.cards.AppointmentCardContainer;
+import application.ui.users.components.containers.AppointmentCardContainer;
 import com.vaadin.flow.component.ComponentEvent;
 import com.vaadin.flow.component.ComponentEventListener;
 import com.vaadin.flow.component.button.Button;

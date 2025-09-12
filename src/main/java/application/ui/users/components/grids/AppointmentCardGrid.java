@@ -149,7 +149,7 @@ public class AppointmentCardGrid extends VerticalLayout {
                 if (user.equals(appointment.getAppointer())) {
                     return Optional.ofNullable(appointment.getAppointee());
                 } else {
-                    return Optional.ofNullable(appointment.getAppointee());
+                    return Optional.ofNullable(appointment.getAppointer());
                 }
             });
 

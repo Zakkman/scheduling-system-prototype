@@ -1,10 +1,10 @@
-package application.ui.users.components.scheduling;
+package application.ui.users.components.forms;
 
 import application.backend.appointment.models.Appointment;
 import application.backend.appointment.models.AppointmentStatus;
 import application.backend.common.enums.Role;
 import application.backend.users.models.User;
-import application.ui.users.components.cards.profiles.UserProfileContainer;
+import application.ui.users.components.containers.UserProfileContainer;
 import application.ui.users.components.cards.profiles.UserProfile;
 import com.vaadin.flow.component.ComponentEvent;
 import com.vaadin.flow.component.ComponentEventListener;
@@ -20,7 +20,6 @@ import com.vaadin.flow.data.binder.BeanValidationBinder;
 import com.vaadin.flow.data.binder.Binder;
 import com.vaadin.flow.data.binder.ValidationException;
 import com.vaadin.flow.shared.Registration;
-import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
 
 import java.time.LocalDate;

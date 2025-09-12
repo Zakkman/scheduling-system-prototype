@@ -1,5 +1,6 @@
-package application.ui.users.components.scheduling;
+package application.ui.users.components.dialogs;
 
+import application.ui.users.components.forms.ManageAppointmentForm;
 import com.vaadin.flow.component.dialog.Dialog;
 import lombok.Getter;
 

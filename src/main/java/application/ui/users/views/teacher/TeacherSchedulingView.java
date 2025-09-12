@@ -8,7 +8,7 @@ import application.backend.users.services.TeacherService;
 import application.backend.users.services.UserService;
 import application.ui.layouts.TeacherLayout;
 import application.ui.users.components.grids.ProfileGrid;
-import application.ui.users.components.scheduling.SchedulingForm;
+import application.ui.users.components.forms.SchedulingForm;
 import application.ui.users.components.cards.profiles.StudentProfile;
 import application.ui.users.components.cards.profiles.TeacherProfile;
 import application.ui.users.views.SchedulingView;

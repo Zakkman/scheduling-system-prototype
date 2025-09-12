@@ -9,7 +9,7 @@ import application.backend.users.services.TeacherService;
 import application.ui.users.components.cards.AppointmentCard;
 import application.ui.users.components.cards.profiles.UserProfile;
 import application.ui.users.components.grids.AppointmentCardGrid;
-import application.ui.users.components.scheduling.ManageAppointmentDialog;
+import application.ui.users.components.dialogs.ManageAppointmentDialog;
 import com.vaadin.flow.component.notification.Notification;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.router.BeforeEnterEvent;

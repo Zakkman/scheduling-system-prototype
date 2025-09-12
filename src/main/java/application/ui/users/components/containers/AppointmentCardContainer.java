@@ -1,5 +1,6 @@
-package application.ui.users.components.cards;
+package application.ui.users.components.containers;
 
+import application.ui.users.components.cards.AppointmentCard;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 
 import java.util.Optional;

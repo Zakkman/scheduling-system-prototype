@@ -7,7 +7,7 @@ import application.backend.users.services.TeacherService;
 import application.backend.users.services.UserService;
 import application.ui.layouts.StudentLayout;
 import application.ui.users.components.grids.ProfileGrid;
-import application.ui.users.components.scheduling.SchedulingForm;
+import application.ui.users.components.forms.SchedulingForm;
 import application.ui.users.components.cards.profiles.TeacherProfile;
 import application.ui.users.views.SchedulingView;
 import com.vaadin.flow.router.PageTitle;

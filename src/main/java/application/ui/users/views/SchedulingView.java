@@ -1,13 +1,12 @@
 package application.ui.users.views;
 
 import application.backend.appointment.models.Appointment;
-import application.backend.appointment.models.AppointmentStatus;
 import application.backend.appointment.services.AppointmentService;
 import application.backend.security.CustomUserDetails;
 import application.backend.users.models.User;
 import application.backend.users.services.UserService;
-import application.ui.users.components.scheduling.SchedulingDialog;
-import application.ui.users.components.scheduling.SchedulingForm;
+import application.ui.users.components.dialogs.SchedulingDialog;
+import application.ui.users.components.forms.SchedulingForm;
 import com.vaadin.flow.component.notification.Notification;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.data.binder.ValidationException;
