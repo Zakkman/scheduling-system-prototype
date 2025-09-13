@@ -52,7 +52,7 @@ public class StudentSchedulingView extends SchedulingView {
     }
 
     @Override
-    protected void handleDialogClose(SchedulingForm.CancelEvent event) {
+    protected void handleSchedulingDialogClose(SchedulingForm.CancelEvent event) {
         teacherProfileGrid.getGrid().asSingleSelect().clear();
         schedulingDialog.getForm().clearProfileAndFields();
         schedulingDialog.close();

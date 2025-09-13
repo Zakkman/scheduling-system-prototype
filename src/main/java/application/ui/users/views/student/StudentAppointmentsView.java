@@ -5,7 +5,9 @@ import application.backend.appointment.models.AppointmentStatus;
 import application.backend.appointment.services.AppointmentService;
 import application.backend.users.services.StudentService;
 import application.backend.users.services.TeacherService;
+import application.backend.users.services.UserService;
 import application.ui.layouts.StudentLayout;
+import application.ui.users.components.forms.ManageAppointmentForm;
 import application.ui.users.views.AppointmentsView;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
@@ -17,16 +19,16 @@ import jakarta.annotation.security.RolesAllowed;
 public class StudentAppointmentsView extends AppointmentsView {
 
     public StudentAppointmentsView(AppointmentService appointmentService,
+                                   UserService userService,
                                    TeacherService teacherService,
                                    StudentService studentService) {
-        super(appointmentService, teacherService, studentService);
+        super(appointmentService, userService, teacherService, studentService);
     }
 
     @Override
     protected void configureAvailableButtons(Appointment appointment) {
-        manageAppointmentDialog.getForm().clear();
-        manageAppointmentDialog.getForm().addRescheduleButton();
-        manageAppointmentDialog.getForm().addCancelButton();
+        manageAppointmentDialog.getForm().getAcceptButton().setVisible(false);
+        manageAppointmentDialog.getForm().getRejectButton().setVisible(false);
 
         boolean isAppointer = appointment.getAppointer().equals(currentUser);
 
@@ -40,7 +42,10 @@ public class StudentAppointmentsView extends AppointmentsView {
     }
 
     @Override
-    protected void configureManageAppointmentDialog() {
-        //TODO: connect this bruh
+    protected void configureManageAppointmentFormEvents() {
+        manageAppointmentDialog.getForm().addListener(ManageAppointmentForm.RescheduleEvent.class, this::handleRescheduleEvent);
+        manageAppointmentDialog.getForm().addListener(ManageAppointmentForm.CancelEvent.class, this::handleCancelEvent);
+        manageAppointmentDialog.getForm().addListener(ManageAppointmentForm.BackEvent.class, this::handleManageAppointmentDialogClose);
     }
+
 }

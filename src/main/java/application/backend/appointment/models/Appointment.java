@@ -5,10 +5,12 @@ import application.backend.users.models.User;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Size;
 import lombok.Getter;
 import lombok.Setter;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.LocalTime;
 
 @Getter
@@ -35,13 +37,16 @@ public class Appointment extends AbstractEntity {
     private LocalTime endTime;
 
     @NotBlank
+    @Size(max = 200, message = "Cannot exceed 200 characters.")
     private String place;
 
     @NotBlank
+    @Size(max = 200, message = "Cannot exceed 200 characters.")
     private String description;
 
     @Enumerated(EnumType.STRING)
     @NotNull
     private AppointmentStatus status;
 
+    private LocalDateTime statusChangeTime;
 }

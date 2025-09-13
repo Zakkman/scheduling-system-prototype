@@ -1,5 +1,6 @@
-.appointment-card-subtitle .appointment-card-date {
-    margin-right: var(--lumo-space-m);
+.appointment-card-subtitle {
+/* Existing properties... */
+    column-gap: var(--lumo-space-m);
 }
 
 .appointment-card-body .appointment-card-appointed-by,
@@ -8,4 +9,18 @@
     width: 100%;
     white-space: normal;
     overflow-wrap: break-word;
+}
+
+.appointment-card-body .appointment-card-appointed-by .appointer-is-you-indicator {
+    color: var(--lumo-warning-text-color);
+    font-weight: bold;
+}
+
+.appointment-card-body .appointment-details-place .appointment-details-place-label,
+.appointment-card-body .appointment-details-description .appointment-details-description-label {
+    font-weight: bold;
+}
+
+.appointment-card-body .appointment-card-details::part(content) {
+    padding: 10px;
 }

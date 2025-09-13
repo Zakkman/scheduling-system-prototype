@@ -19,6 +19,7 @@ public abstract class UserLayout extends AppLayout {
     private final AuthenticationContext authenticationContext;
 
     public UserLayout(AuthenticationContext authenticationContext,
+                      RouterLink calendarLink,
                       RouterLink appointmentsLink,
                       RouterLink schedulingLink) {
         this.authenticationContext = authenticationContext;
@@ -26,8 +27,10 @@ public abstract class UserLayout extends AppLayout {
         setPrimarySection(Section.DRAWER);
         addToNavbar(createHeader());
 
-        Component[] navigationButtons = createNavigationButtons(appointmentsLink, schedulingLink);
+        Component[] navigationButtons = createNavigationButtons(calendarLink, appointmentsLink, schedulingLink);
         addToDrawer(createDrawer(navigationButtons));
+
+        getElement().getStyle().set("height", "100%");
     }
 
     private Component createHeader() {
@@ -38,12 +41,10 @@ public abstract class UserLayout extends AppLayout {
         header.setAlignItems(FlexComponent.Alignment.CENTER);
         header.setJustifyContentMode(FlexComponent.JustifyContentMode.BETWEEN);
 
-        // Title and menu toggle on the far left
         HorizontalLayout leftHeader = new HorizontalLayout(new DrawerToggle(), new H4("Scheduling System"));
         leftHeader.setAlignItems(FlexComponent.Alignment.CENTER);
         header.add(leftHeader);
 
-        // Logout button on the far right
         Button logoutButton = new Button("Log Out", event -> authenticationContext.logout());
         header.add(logoutButton);
 
@@ -66,8 +67,14 @@ public abstract class UserLayout extends AppLayout {
         return layout;
     }
 
-    private Component[] createNavigationButtons(RouterLink appointmentsLink, RouterLink schedulingLink) {
-        Button appointmentsButton = new Button("Appointments", VaadinIcon.CALENDAR.create());
+    private Component[] createNavigationButtons(RouterLink calendarLink, RouterLink appointmentsLink, RouterLink schedulingLink) {
+        Button calendarButton = new Button("Calendar", VaadinIcon.CALENDAR.create());
+        calendarButton.addClassName("user-layout-calendar-button");
+        calendarButton.setWidthFull();
+        calendarButton.setHeight("150px");
+        calendarLink.add(calendarButton);
+
+        Button appointmentsButton = new Button("Appointments", VaadinIcon.ENVELOPES.create());
         appointmentsButton.addClassName("user-layout-appointments-button");
         appointmentsButton.setWidthFull();
         appointmentsButton.setHeight("150px");
@@ -79,6 +86,6 @@ public abstract class UserLayout extends AppLayout {
         addAppointmentsButton.setHeight("150px");
         schedulingLink.add(addAppointmentsButton);
 
-        return new Component[] { appointmentsLink, schedulingLink };
+        return new Component[] { calendarLink, appointmentsLink, schedulingLink };
     }
 }

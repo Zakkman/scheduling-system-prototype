@@ -21,7 +21,6 @@ import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.select.Select;
 import lombok.Getter;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -66,8 +65,7 @@ public class AppointmentCardGrid extends VerticalLayout {
         grid.setColumns();
         grid.addComponentColumn(this::createAppointmentCardComponent)
             .setHeader(new H3("Appointments:"))
-            .setFlexGrow(1)
-            .setAutoWidth(true);
+            .addClassName("appointment-card-grid-column");
     }
 
     private void configureFilters() {
@@ -95,12 +93,12 @@ public class AppointmentCardGrid extends VerticalLayout {
         updateGrid();
     }
 
-    private void updateGrid() {
+    public void updateGrid() {
         if (currentUser == null) {
             return;
         }
 
-        List<Appointment> appointments = appointmentService.getAppointmentsForUser(currentUser);
+        List<Appointment> appointments = appointmentService.findAppointmentsForUser(currentUser);
 
         String dateSort = dateSortFilter.getValue();
         String selectedRole = roleFilter.getValue();
@@ -140,7 +138,9 @@ public class AppointmentCardGrid extends VerticalLayout {
             return null;
         }
 
-        return new AppointmentCard(appointment, currentUser, userProfile);
+        AppointmentCard card = new AppointmentCard(appointment, currentUser, userProfile);
+
+        return card;
     }
 
     public UserProfile<?> createUserProfile(Appointment appointment) {

@@ -25,6 +25,8 @@ public class ManageAppointmentForm extends VerticalLayout {
     private final Button rescheduleButton;
     @Getter
     private final Button cancelButton;
+    @Getter
+    private final Button backButton;
 
     public ManageAppointmentForm() {
         this.selectedAppointmentCardContainer = new AppointmentCardContainer();
@@ -33,16 +35,7 @@ public class ManageAppointmentForm extends VerticalLayout {
         this.rejectButton = new Button("Reject");
         this.rescheduleButton = new Button("Reschedule");
         this.cancelButton = new Button("Cancel");
-
-        for (Button button : new Button[] {
-            acceptButton,
-            rejectButton,
-            rescheduleButton,
-            cancelButton
-        }) {
-            button.setWidthFull();
-            button.setHeight("100px");
-        }
+        this.backButton = new Button("Back");
 
         buttonLayout.setPadding(false);
         buttonLayout.setSpacing(false);
@@ -50,13 +43,26 @@ public class ManageAppointmentForm extends VerticalLayout {
 
         selectedAppointmentCardContainer.addClassName("manage-appointment-form");
 
-        cancelButton.addClassName("cancel-button");
         acceptButton.addClassName("accept-button");
         rejectButton.addClassName("reject-button");
         rescheduleButton.addClassName("reschedule-button");
+        cancelButton.addClassName("cancel-button");
+        backButton.addClassName("back-button");
 
         add(new H3("Manage Appointment"));
         add(selectedAppointmentCardContainer, buttonLayout);
+
+        for (Button button : new Button[] {
+            acceptButton,
+            rejectButton,
+            rescheduleButton,
+            cancelButton,
+            backButton
+        }) {
+            buttonLayout.add(button);
+            button.setWidthFull();
+            button.setHeight("100px");
+        }
     }
 
     public void setAppointmentCard(AppointmentCard appointmentCard) {
@@ -66,7 +72,6 @@ public class ManageAppointmentForm extends VerticalLayout {
 
     public void clear() {
         selectedAppointmentCardContainer.removeAll();
-        buttonLayout.removeAll();
     }
 
     private void configureButtons() {
@@ -85,6 +90,10 @@ public class ManageAppointmentForm extends VerticalLayout {
         configureClickListener(cancelButton, appointment ->
             fireEvent(new CancelEvent(this, appointment))
         );
+
+        configureClickListener(backButton, appointment ->
+            fireEvent(new BackEvent(this))
+        );
     }
 
     private void configureClickListener(Button button, Consumer<Appointment> eventCreator) {
@@ -97,52 +106,43 @@ public class ManageAppointmentForm extends VerticalLayout {
         });
     }
 
-    public void addAcceptButton() {
-        buttonLayout.add(acceptButton);
-    }
-
-    public void addRejectButton() {
-        buttonLayout.add(rejectButton);
-    }
-
-    public void addRescheduleButton() {
-        buttonLayout.add(rescheduleButton);
-    }
-
-    public void addCancelButton() {
-        buttonLayout.add(cancelButton);
-    }
-
-    public static class ManageAppointFormEvent extends ComponentEvent<ManageAppointmentForm> {
+    public static class ManageAppointmentFormEvent extends ComponentEvent<ManageAppointmentForm> {
+        @Getter
         private final Appointment appointment;
 
-        public ManageAppointFormEvent(ManageAppointmentForm source, Appointment appointment) {
+        public ManageAppointmentFormEvent(ManageAppointmentForm source, Appointment appointment) {
             super(source, false);
             this.appointment = appointment;
         }
     }
 
-    public static class AcceptEvent extends ManageAppointFormEvent {
+    public static class AcceptEvent extends ManageAppointmentFormEvent {
         AcceptEvent(ManageAppointmentForm source, Appointment appointment) {
             super(source, appointment);
         }
     }
 
-    public static class RejectEvent extends ManageAppointFormEvent {
+    public static class RejectEvent extends ManageAppointmentFormEvent {
         RejectEvent(ManageAppointmentForm source, Appointment appointment) {
             super(source, appointment);
         }
     }
 
-    public static class RescheduleEvent extends ManageAppointFormEvent {
+    public static class RescheduleEvent extends ManageAppointmentFormEvent {
         RescheduleEvent(ManageAppointmentForm source, Appointment appointment) {
             super(source, appointment);
         }
     }
 
-    public static class CancelEvent extends ManageAppointFormEvent {
+    public static class CancelEvent extends ManageAppointmentFormEvent {
         CancelEvent(ManageAppointmentForm source, Appointment appointment) {
             super(source, appointment);
+        }
+    }
+
+    public static class BackEvent extends ManageAppointmentFormEvent {
+        BackEvent(ManageAppointmentForm source) {
+            super(source, null);
         }
     }
 

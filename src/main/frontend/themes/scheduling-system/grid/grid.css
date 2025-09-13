@@ -9,7 +9,27 @@
     max-width: 1200px;
 }
 
-.profile-grid-toolbar,
-.appointment-grid-toolbar {
+.profile-grid-layout {
+    min-height: 800px;
+}
+
+.appointment-card-grid-layout {
+    min-height: 1000px;
+}
+
+.profile-grid-toolbar, .appointment-grid-toolbar {
     column-gap: var(--lumo-space-m);
+}
+
+.appointment-card-grid-column {
+    width: 100%;
+    box-sizing: border-box;
+}
+
+.appointment-card-grid-column[part~='cell'] {
+    white-space: normal !important;
+}
+
+.appointment-card-grid-layout vaadin-grid::part(cell) {
+    white-space: normal !important;
 }

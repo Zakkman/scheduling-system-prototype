@@ -1,0 +1,49 @@
+.calendar-cell-base-style {
+    aspect-ratio: 1 / 1.5;
+    min-height: 1.2rem;
+    min-width: 1rem;
+    overflow: hidden;
+    box-sizing: border-box;
+    margin: 0 -1px -1px 0;
+    cursor: pointer;
+    user-select: none;
+
+}
+
+.calendar-cell-initial-data-style {
+    font-size: clamp(0.7rem, 1.5vw, 1rem);
+    font-family: Poppins, sans-serif;
+    font-weight: 100;
+    margin-top: 0.2em;
+}
+
+.calendar-cell-current-date-style {
+    padding-top: var(--lumo-space-xxs);
+    padding-bottom: var(--lumo-space-xxs);
+    padding-left: var(--lumo-space-s);
+    padding-right: var(--lumo-space-s);
+}
+
+.calendar-header-month-navigation-button-styling {
+    background: transparent;
+    border: none;
+    box-shadow: none;
+    min-width: 2em;
+}
+
+.calendar-day-header-day-text {
+    flex-basis: calc((100% - 6px) / 7);
+    flex-grow: 0;
+    text-align: center;
+    margin-bottom: 1rem;
+}
+
+.calendar-cell-sizing-style {
+    flex-basis: calc((100% - 6px) / 7);
+    flex-grow: 0;
+}
+
+.calendar {
+    max-width: 800px;
+    padding: 0;
+}

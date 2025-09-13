@@ -52,21 +52,21 @@ public class HomeLayout extends AppLayout {
         Button homeButton = new Button("Home", VaadinIcon.HOME.create());
         homeButton.addClassName("home-layout-home-button");
         homeButton.setWidthFull();
-        homeButton.setHeight("100px");
+        homeButton.setHeight("150px");
         RouterLink homeLink = new RouterLink("", HomeView.class);
         homeLink.add(homeButton);
 
         Button loginButton = new Button("Login", VaadinIcon.SIGN_IN.create());
         loginButton.addClassName("home-layout-login-button");
         loginButton.setWidthFull();
-        loginButton.setHeight("100px");
+        loginButton.setHeight("150px");
         RouterLink loginLink = new RouterLink("", LoginView.class);
         loginLink.add(loginButton);
 
         Button registerButton = new Button("Register", VaadinIcon.USER.create());
         registerButton.addClassName("home-layout-register-button");
         registerButton.setWidthFull();
-        registerButton.setHeight("100px");
+        registerButton.setHeight("150px");
         RouterLink registerLink = new RouterLink("", UserRegistrationView.class);
         registerLink.add(registerButton);
 

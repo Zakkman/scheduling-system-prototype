@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import java.time.LocalDate;
 import java.time.YearMonth;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class AppointmentService {
@@ -22,23 +23,24 @@ public class AppointmentService {
         repo.save(appointment);
     }
 
-    public List<Appointment> getAppointmentsForMonth(YearMonth yearMonth) {
-        LocalDate startDate = yearMonth.atDay(1);
-        LocalDate endDate = yearMonth.atEndOfMonth();
-
-        return repo.findByDateBetween(startDate, endDate);
+    public void deleteAppointment(Appointment appointment) {
+        repo.delete(appointment);
     }
 
-    public List<Appointment> getAppointmentsForUser(User user) {
+    public Optional<Appointment> findByAppointment(Appointment appointment) {
+        return repo.findById(appointment.getId());
+    }
+
+    public List<Appointment> findAppointmentsForUser(User user) {
         return repo.findByAppointerOrAppointee(user, user);
     }
 
-    public List<Appointment> getAppointmentsForAppointer(User user) {
-        return repo.findByAppointer(user);
-    }
+    public List<Appointment> findAll() { return repo.findAll(); }
 
-    public List<Appointment> getAppointmentsForAppointee(User user) {
-        return repo.findByAppointee(user);
-    }
+    public List<Appointment> findAppointmentsForUserAtMonth(User user, YearMonth yearMonth) {
+        LocalDate startDate = yearMonth.atDay(1);
+        LocalDate endDate = yearMonth.atEndOfMonth();
 
+        return repo.findAppointmentsForUserInDateRange(user, startDate, endDate);
+    }
 }

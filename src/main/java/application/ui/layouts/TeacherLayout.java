@@ -1,5 +1,6 @@
 package application.ui.layouts;
 
+import application.ui.users.views.teacher.TeacherCalendarView;
 import application.ui.users.views.teacher.TeacherSchedulingView;
 import application.ui.users.views.teacher.TeacherAppointmentsView;
 import com.vaadin.flow.component.Component;
@@ -12,6 +13,7 @@ public class TeacherLayout extends UserLayout {
 
     public TeacherLayout(AuthenticationContext authenticationContext) {
         super(authenticationContext,
+            new RouterLink("", TeacherCalendarView.class),
             new RouterLink("", TeacherAppointmentsView.class),
             new RouterLink("", TeacherSchedulingView.class)
         );
